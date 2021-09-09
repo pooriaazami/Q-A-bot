@@ -11,7 +11,7 @@ def read_token():
 def main():
     token = read_token()
 
-    updater = Updater()
+    updater = Updater(token=token, use_context=True)
     dispatcher = updater.dispatcher
 
     updater.start_polling()
