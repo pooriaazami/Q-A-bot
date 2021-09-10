@@ -1,3 +1,4 @@
+import os
 import sqlite3
 
 
@@ -14,3 +15,8 @@ def create_database():
 
     connection.commit()
     connection.close()
+
+
+def create_database_path():
+    if not os.path.isdir('database'):
+        os.mkdir('database')
