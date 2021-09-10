@@ -1,6 +1,7 @@
 from telegram.ext import Updater, CommandHandler
 
 from utils.DBInterface import create_database_path, create_database
+from utils.DataHolder import DataHolder
 from utils.commnads import start
 
 
@@ -12,9 +13,13 @@ def read_token():
 
 
 def read_users():
+    data_holder = DataHolder.get_instance()
+
     with open('users.txt') as file:
         for line in file:
-            print(*line.strip().split(' '), sep='\t')
+            username, roll = line.strip().strip(' ')
+            data_holder.push_new_registered_user(username,
+                                                 DataHolder.ADMIN if roll == 'admin' else DataHolder.USER)
 
 
 def main():
