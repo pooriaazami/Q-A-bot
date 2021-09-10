@@ -14,3 +14,12 @@ def start(update: Update, callback: CallbackContext):
     bot.send_message(user.id, 'Please enter your username')
 
     data_holder.set_state(user.id, DataHolder.USERNAME_INPUT)
+
+
+def text_message_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.USERNAME_INPUT:
+        # register user
+        pass
