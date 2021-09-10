@@ -1,6 +1,5 @@
 from telegram.ext import Updater, CommandHandler
 
-from utils.DBInterface import create_database_path, create_database
 from utils.DataHolder import DataHolder
 from utils.commnads import start
 
@@ -24,8 +23,6 @@ def read_users():
 
 def main():
     token = read_token()
-    create_database_path()
-    create_database()
 
     read_users()
 
