@@ -17,7 +17,7 @@ def read_users():
 
     with open('users.txt') as file:
         for line in file:
-            username, roll = line.strip().strip(' ')
+            username, roll = line.strip().split(' ')
             data_holder.push_new_registered_user(username,
                                                  DataHolder.ADMIN if roll == 'admin' else DataHolder.USER)
 
