@@ -11,10 +11,18 @@ def read_token():
     return token
 
 
+def read_users():
+    with open('users.txt') as file:
+        for line in file:
+            print(*line.strip().split(' '), sep='\t')
+
+
 def main():
     token = read_token()
     create_database_path()
     create_database()
+
+    read_users()
 
     updater = Updater(token=token, use_context=True)
     dispatcher = updater.dispatcher
