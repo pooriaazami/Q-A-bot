@@ -1,7 +1,7 @@
-from telegram.ext import Updater, CommandHandler
+from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from utils.DataHolder import DataHolder
-from utils.commnads import start
+from utils.commnads import start, text_message_handler
 
 
 def read_token():
@@ -17,8 +17,8 @@ def read_users():
     with open('users.txt') as file:
         for line in file:
             username, roll = line.strip().split(' ')
-            data_holder.push_new_registered_user(username,
-                                                 DataHolder.ADMIN if roll == 'admin' else DataHolder.USER)
+            data_holder.push_new_valid_user(username,
+                                            DataHolder.ADMIN if roll == 'admin' else DataHolder.USER)
 
 
 def main():
@@ -30,6 +30,7 @@ def main():
     dispatcher = updater.dispatcher
 
     dispatcher.add_handler(CommandHandler('start', start))
+    dispatcher.add_handler(MessageHandler(Filters.text, text_message_handler))
 
     updater.start_polling()
 

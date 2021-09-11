@@ -18,8 +18,17 @@ def start(update: Update, callback: CallbackContext):
 
 def text_message_handler(update: Update, callback: CallbackContext):
     user = update.effective_user
+    bot = callback.bot
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.USERNAME_INPUT:
-        # register user
-        pass
+        if data_holder.get_valid_user(update.effective_message.text) != DataHolder.INVALID_USERNAME:
+            roll = data_holder.register(user.id, update.effective_message.text)
+            if roll:
+                bot.send_message(user.id, f'You have been registered as {roll}')
+            else:
+                bot.send_message(user.id, 'You have already registered')
+        else:
+            bot.send_message(user.id, 'Invalid username')
+    else:
+        bot.send_message(user.id, 'Invalid message')

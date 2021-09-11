@@ -10,8 +10,9 @@ class DataHolder:
 
     def __init__(self):
         if DataHolder.__instance is None:
-            self.__registered_users = {}
+            self.__valid_users = {}
             self.__states = {}
+            self.__registered_users = {}
 
     @staticmethod
     def get_instance():
@@ -20,14 +21,20 @@ class DataHolder:
 
         return DataHolder.__instance
 
-    def push_new_registered_user(self, username, roll):
-        self.__registered_users[username] = roll
+    def push_new_valid_user(self, username, roll):
+        self.__valid_users[username] = roll
 
-    def get_registered_user(self, username):
-        return self.__registered_users.get(username, DataHolder.INVALID_USERNAME)
+    def get_valid_user(self, username):
+        return self.__valid_users.get(username, DataHolder.INVALID_USERNAME)
 
     def set_state(self, user_id, state):
         self.__states[user_id] = state
 
     def get_state(self, user_id):
         return self.__states.get(user_id, DataHolder.INVALID_USERNAME)
+
+    def register(self, user_id, username):
+        if user_id not in self.__registered_users.keys():
+            self.__registered_users[user_id] = self.__valid_users[username]
+            return self.__valid_users[username]
+        return None
