@@ -36,5 +36,7 @@ class DataHolder:
     def register(self, user_id, username):
         if user_id not in self.__registered_users.keys():
             self.__registered_users[user_id] = self.__valid_users[username]
-            return self.__valid_users[username]
+
+            del self.__valid_users[username]
+            return self.__registered_users[user_id]
         return None
