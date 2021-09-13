@@ -51,6 +51,6 @@ def text_message_handler(update: Update, callback: CallbackContext):
     elif data_holder.get_state(user.id) == DataHolder.COMMAND_INPUT:
         process_text_commands(update.effective_chat, update.effective_message, callback.bot)
     elif data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
-        pass
+        bot.send_message(data_holder.get_instance().effective_chat_id, update.message.text)
     else:
         bot.send_message(user.id, 'Invalid message')
