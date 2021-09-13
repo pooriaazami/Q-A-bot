@@ -30,5 +30,7 @@ def text_message_handler(update: Update, callback: CallbackContext):
                 bot.send_message(user.id, 'You have already registered')
         else:
             bot.send_message(user.id, 'Invalid username')
+    elif data_holder.get_state(user.id) == DataHolder.COMMAND_INPUT:
+        bot.send_message(user.id, 'Processing command')
     else:
         bot.send_message(user.id, 'Invalid message')

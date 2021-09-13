@@ -6,6 +6,8 @@ class DataHolder:
     INVALID_USERNAME = -1
 
     USERNAME_INPUT = 1
+    COMMAND_INPUT = 2
+    TEXT_MESSAGE_INPUT = 3
     INVALID = -1
 
     def __init__(self):
@@ -36,6 +38,11 @@ class DataHolder:
     def register(self, user_id, username):
         if user_id not in self.__registered_users.keys():
             self.__registered_users[user_id] = self.__valid_users[username]
+
+            if self.__registered_users[user_id] == DataHolder.ADMIN:
+                self.__states[user_id] = DataHolder.COMMAND_INPUT
+            elif self.__registered_users[user_id] == DataHolder.USER:
+                self.__states[user_id] = DataHolder.TEXT_MESSAGE_INPUT
 
             del self.__valid_users[username]
             return self.__registered_users[user_id]
