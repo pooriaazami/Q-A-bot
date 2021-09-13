@@ -1,4 +1,4 @@
-from telegram import Update
+from telegram import Update, Bot, User
 from telegram.ext import CallbackContext
 
 from utils.DataHolder import DataHolder
@@ -16,6 +16,16 @@ def start(update: Update, callback: CallbackContext):
     data_holder.set_state(user.id, DataHolder.USERNAME_INPUT)
 
 
+def process_text_commands(command: str, bot: Bot, user: User):
+    args = command.split(' ')
+    args[0] = args[0].lower()
+
+    if args[0] == 'start':
+        pass
+    elif args[0] == 'end':
+        pass
+
+
 def text_message_handler(update: Update, callback: CallbackContext):
     user = update.effective_user
     bot = callback.bot
@@ -31,6 +41,8 @@ def text_message_handler(update: Update, callback: CallbackContext):
         else:
             bot.send_message(user.id, 'Invalid username')
     elif data_holder.get_state(user.id) == DataHolder.COMMAND_INPUT:
-        bot.send_message(user.id, 'Processing command')
+        pass
+    elif data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        pass
     else:
         bot.send_message(user.id, 'Invalid message')
