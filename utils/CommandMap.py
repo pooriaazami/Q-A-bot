@@ -14,9 +14,8 @@ class CommandMap:
 
     @staticmethod
     def error_command(update, callback, args):
-        user = update.effective_user
         bot = callback.bot
-        bot.send_message(user.id, 'Command not found')
+        bot.send_message(update.effective_chat.id, 'Command not found')
 
     def add_command(self, command_name, function, helper_data):
         self.__map[command_name] = {
@@ -25,4 +24,7 @@ class CommandMap:
         }
 
     def get_command(self, command):
-        return self.__map.get(command, self.error_command)['function']
+        if command in self.__map.keys():
+            return self.__map[command]['function']
+
+        return self.error_command

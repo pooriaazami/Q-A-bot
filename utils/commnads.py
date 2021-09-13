@@ -23,7 +23,7 @@ def start(update: Update, callback: CallbackContext):
         # reset states
 
 
-def begin_command(update: Update, callback: CallbackContext):
+def begin_command(update: Update, callback: CallbackContext, args):
     if DataHolder.get_instance().effective_chat_id is None:
         DataHolder.get_instance().effective_chat_id = update.effective_chat.id
         callback.bot.send_message(DataHolder.get_instance().effective_chat_id, 'Q&A started')
@@ -31,7 +31,7 @@ def begin_command(update: Update, callback: CallbackContext):
         callback.bot.send_message(update.effective_chat.id, 'Q&A is in progress')
 
 
-def end_command(update: Update, callback: CallbackContext):
+def end_command(update: Update, callback: CallbackContext, args):
     DataHolder.get_instance().effective_chat_id = None
 
 
@@ -39,7 +39,7 @@ def process_text_commands(update: Update, callback: CallbackContext):
     args = update.message.text.split(' ')
     args[0] = args[0].lower()
 
-    CommandMap.get_instance().get_command(args[0])(update, callback)
+    CommandMap.get_instance().get_command(args[0])(update, callback, args[1:])
 
     # if args[0] == 'start':
     #     pass
