@@ -10,10 +10,14 @@ def start(update: Update, callback: CallbackContext):
     user = update.effective_user
     bot = callback.bot
 
-    bot.send_message(user.id, "Welcome to Bitoks Q&A bot!")
-    bot.send_message(user.id, 'Please enter your username')
+    if update.effective_chat.type == 'private':
+        bot.send_message(user.id, "Welcome to Bitoks Q&A bot!")
+        bot.send_message(user.id, 'Please enter your username')
 
-    data_holder.set_state(user.id, DataHolder.USERNAME_INPUT)
+        data_holder.set_state(user.id, DataHolder.USERNAME_INPUT)
+    else:
+        bot.send_message(update.effective_chat.id, 'You can only use start command in groups',
+                         reply_to_message_id=update.effective_message.message_id)
 
 
 def process_text_commands(chat: Chat, message: Message, bot: Bot):
