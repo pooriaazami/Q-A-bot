@@ -1,7 +1,8 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
+from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder
-from utils.commnads import start, text_message_handler
+from utils.commnads import start, text_message_handler, begin_command, end_command
 
 
 def read_token():
@@ -31,6 +32,9 @@ def main():
 
     dispatcher.add_handler(CommandHandler('start', start))
     dispatcher.add_handler(MessageHandler(Filters.text, text_message_handler))
+
+    CommandMap.get_instance().add_command('begin', begin_command, 'begin command help')
+    CommandMap.get_instance().add_command('end', end_command, 'end command help')
 
     updater.start_polling()
 

@@ -1,6 +1,7 @@
 from telegram import Update, Bot, User, Message, Chat
 from telegram.ext import CallbackContext
 
+from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder
 
 
@@ -19,19 +20,31 @@ def start(update: Update, callback: CallbackContext):
         bot.send_message(update.effective_chat.id, 'You can only use start command in groups',
                          reply_to_message_id=update.effective_message.message_id)
 
+        # reset states
 
-def process_text_commands(chat: Chat, message: Message, bot: Bot):
-    args = message.text.split(' ')
+
+def begin_command(update: Update, callback: CallbackContext):
+    if DataHolder.get_instance().effective_chat_id is None:
+        DataHolder.get_instance().effective_chat_id = update.effective_chat.id
+        callback.bot.send_message(DataHolder.get_instance().effective_chat_id, 'Q&A started')
+    else:
+        callback.bot.send_message(update.effective_chat.id, 'Q&A is in progress')
+
+
+def end_command(update: Update, callback: CallbackContext):
+    DataHolder.get_instance().effective_chat_id = None
+
+
+def process_text_commands(update: Update, callback: CallbackContext):
+    args = update.message.text.split(' ')
     args[0] = args[0].lower()
-    
-    if args[0] == 'start':
-        if DataHolder.get_instance().effective_chat_id is None:
-            DataHolder.get_instance().effective_chat_id = chat.id
-            bot.send_message(DataHolder.get_instance().effective_chat_id, 'Q&A started')
-        else:
-            bot.send_message(chat.id, 'Q&A is in progress')
-    elif args[0] == 'end':
-        DataHolder.get_instance().effective_chat_id = None
+
+    CommandMap.get_instance().get_command(args[0])(update, callback)
+
+    # if args[0] == 'start':
+    #     pass
+    # elif args[0] == 'end':
+    #     pass
 
 
 def text_message_handler(update: Update, callback: CallbackContext):
@@ -49,7 +62,7 @@ def text_message_handler(update: Update, callback: CallbackContext):
         else:
             bot.send_message(user.id, 'Invalid username')
     elif data_holder.get_state(user.id) == DataHolder.COMMAND_INPUT:
-        process_text_commands(update.effective_chat, update.effective_message, callback.bot)
+        process_text_commands(update, callback)
     elif data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
         bot.send_message(data_holder.get_instance().effective_chat_id, update.message.text)
     else:
