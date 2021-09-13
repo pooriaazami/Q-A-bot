@@ -15,6 +15,7 @@ class DataHolder:
             self.__valid_users = {}
             self.__states = {}
             self.__registered_users = {}
+            self.__effective_chat_id = None
 
     @staticmethod
     def get_instance():
@@ -22,6 +23,14 @@ class DataHolder:
             DataHolder.__instance = DataHolder()
 
         return DataHolder.__instance
+
+    @property
+    def effective_chat_id(self):
+        return self.__effective_chat_id
+
+    @effective_chat_id.setter
+    def effective_chat_id(self, value):
+        self.__effective_chat_id = value
 
     def push_new_valid_user(self, username, roll):
         self.__valid_users[username] = roll
