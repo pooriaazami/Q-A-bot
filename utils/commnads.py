@@ -23,7 +23,7 @@ def start(update: Update, callback: CallbackContext):
 def process_text_commands(chat: Chat, message: Message, bot: Bot):
     args = message.text.split(' ')
     args[0] = args[0].lower()
-    print(*args)
+    
     if args[0] == 'start':
         if DataHolder.get_instance().effective_chat_id is None:
             DataHolder.get_instance().effective_chat_id = chat.id
