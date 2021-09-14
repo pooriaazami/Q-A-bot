@@ -260,22 +260,6 @@ def video_handler(update: Update, callback: CallbackContext):
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
-def dice_handler(update: Update, callback: CallbackContext):
-    user = update.effective_user
-    bot = callback.bot
-    data_holder = DataHolder.get_instance()
-
-    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
-        data_holder.increase_message_count()
-        bot.send_dice(data_holder.get_instance().effective_chat_id, update.message.dice)
-
-        for chat in DataHolder.get_instance().branches:
-            bot.send_dice(chat, update.message.dice)
-
-    else:
-        bot.send_message(update.effective_chat.id, 'Invalid message')
-
-
 def audio_handler(update: Update, callback: CallbackContext):
     user = update.effective_user
     bot = callback.bot
