@@ -2,10 +2,10 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder
-from utils.commnads import start, text_message_handler, begin_command, end_command, add_command, list_command, \
-    branch_command, \
-    report_command, sticker_handler, voice_handler, animation_handler, contact_handler, audio_handler, \
-    video_handler, photo_handler, video_note_handler, send_command
+from utils.MessageHandler import text_message_handler, sticker_handler, voice_handler, animation_handler, \
+    contact_handler, audio_handler, video_handler, photo_handler, video_note_handler
+from utils.commnads import start, begin_command, end_command, add_command, list_command, \
+    branch_command, report_command, send_command
 import re
 
 from utils.utils import string_to_roll
