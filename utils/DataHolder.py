@@ -75,6 +75,14 @@ class DataHolder:
         self.__branches.append(chat_id)
 
     @property
+    def users(self):
+        return [user_id for user_id, roll in self.__registered_users.items() if roll == DataHolder.USER]
+
+    @property
+    def admins(self):
+        return [user_id for user_id, roll in self.__registered_users.items() if roll == DataHolder.ADMIN]
+
+    @property
     def branches(self):
         return self.__branches
 
