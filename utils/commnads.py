@@ -86,7 +86,7 @@ def process_text_commands(update: Update, callback: CallbackContext):
     CommandMap.get_instance().get_command(args[0])(update, callback, args[1:])
 
 
-def branch(update: Update, callback: CallbackContext, args):
+def branch_command(update: Update, callback: CallbackContext, args):
     bot = callback.bot
 
     if len(args) == 0:
@@ -105,6 +105,16 @@ def branch(update: Update, callback: CallbackContext, args):
                 bot.send_message(update.effective_chat.id, '\n'.join(data))
             else:
                 bot.send_message(update.effective_chat.id, 'There is no branch')
+
+
+def report_command(update: Update, callback: CallbackContext, args):
+    bot = callback.bot
+
+    count = DataHolder.get_instance().count
+    users = DataHolder.get_instance().registered_users
+    average = count / len(users)
+
+    bot.send_message(update.effective_chat.id, f'message_count: {count}\nusers: {len(users)}\naverage: {average}')
 
 
 def text_message_handler(update: Update, callback: CallbackContext):

@@ -2,7 +2,8 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder, string_to_roll
-from utils.commnads import begin, text_message_handler, begin_command, end_command, add_command, list_command, branch
+from utils.commnads import begin, text_message_handler, begin_command, end_command, add_command, list_command, branch_command, \
+    report_command
 import re
 
 
@@ -52,7 +53,8 @@ def main():
     command_map.add_command('end', end_command, 'end command help')
     command_map.add_command('add', add_command, 'add command help')
     command_map.add_command('list', list_command, 'list command help')
-    command_map.add_command('branch', branch, 'branch help')
+    command_map.add_command('branch', branch_command, 'branch help')
+    command_map.add_command('report', report_command, 'report command help')
 
     updater.start_polling()
 

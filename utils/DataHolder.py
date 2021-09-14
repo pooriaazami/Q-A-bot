@@ -80,6 +80,10 @@ class DataHolder:
     def increase_message_count(self):
         self.__message_count += 1
 
+    @property
+    def count(self):
+        return self.__message_count
+
 
 def roll_to_string(roll):
     if roll == DataHolder.ADMIN:
