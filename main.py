@@ -3,6 +3,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder, string_to_roll
 from utils.commnads import begin, text_message_handler, begin_command, end_command, add_command, list_command, branch
+import re
 
 
 def read_token():
@@ -15,11 +16,27 @@ def read_token():
 def read_users():
     data_holder = DataHolder.get_instance()
 
+    cache = []
+    block_roll = None
     with open('users.txt') as file:
         for line in file:
-            username, roll = line.strip().split(' ')
-            data_holder.push_new_valid_user(username,
-                                            string_to_roll(roll))
+            line = line.strip()
+
+            if line.startswith('#'):
+                continue
+            if line == 'end':
+                cache = []
+                block_roll = None
+            elif block_roll is not None:
+                cache.append(line)
+                data_holder.push_new_valid_user(line, block_roll)
+            elif line.startswith('multiple-input'):
+                regex = r'multiple-input \((.+)?\)'
+                block_roll = string_to_roll(re.findall(regex, line)[0])
+            elif line.count(' ') == 1:
+                username, roll = line.split(' ')
+                data_holder.push_new_valid_user(username,
+                                                string_to_roll(roll))
 
 
 def main():
