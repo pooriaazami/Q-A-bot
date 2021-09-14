@@ -39,6 +39,7 @@ def end_command(update: Update, callback: CallbackContext, args):
     if update.effective_chat.id == DataHolder.get_instance().effective_chat_id:
         DataHolder.get_instance().effective_chat_id = None
         DataHolder.get_instance().remove_branches()
+        bot.send_message(update.effective_chat.id, 'Done')
     elif update.effective_chat.id in DataHolder.get_instance().branches:
         bot.send_message(update.effective_chat.id, 'You can not end Q&A in a branch or pv')
 
@@ -92,7 +93,9 @@ def branch(update: Update, callback: CallbackContext, args):
     if len(args) == 0:
         if DataHolder.get_instance().effective_chat_id is not None:
             DataHolder.get_instance().add_branch(update.effective_chat.id)
-            bot.send_message(DataHolder.get_instance().effective_chat_id, 'new branch added')
+            bot.send_message(DataHolder.get_instance().effective_chat_id,
+                             f'new branch added\n{update.effective_chat.title}')
+            bot.send_message(update.effective_chat.id, 'Done')
         else:
             bot.send_message(update.effective_chat.id, 'Q&A has not started yet')
     else:
