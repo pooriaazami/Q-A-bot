@@ -124,6 +124,7 @@ def text_message_handler(update: Update, callback: CallbackContext):
     elif data_holder.get_state(user.id) == DataHolder.COMMAND_INPUT:
         process_text_commands(update, callback)
     elif data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
         bot.send_message(data_holder.get_instance().effective_chat_id, update.message.text)
 
         for chat in DataHolder.get_instance().branches:

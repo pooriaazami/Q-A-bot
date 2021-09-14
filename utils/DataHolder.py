@@ -17,6 +17,7 @@ class DataHolder:
             self.__registered_users = {}
             self.__effective_chat_id = None
             self.__branches = []
+            self.__message_count = 0
 
     @staticmethod
     def get_instance():
@@ -75,6 +76,9 @@ class DataHolder:
 
     def remove_branches(self):
         self.__branches = []
+
+    def increase_message_count(self):
+        self.__message_count += 1
 
 
 def roll_to_string(roll):
