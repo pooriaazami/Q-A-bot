@@ -180,7 +180,6 @@ def animation_handler(update: Update, callback: CallbackContext):
                 bot.send_animation(destination, update.message.animation, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
-        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
@@ -197,8 +196,6 @@ def document_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_document(chat, update.message.document, caption=update.message.caption)
-        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
-
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -226,8 +223,6 @@ def video_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_video(chat, update.message.video, caption=update.message.caption)
-        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
-
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -256,8 +251,6 @@ def audio_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_audio(chat, update.message.audio, caption=update.message.audio)
-        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
-
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
