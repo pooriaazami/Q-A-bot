@@ -55,9 +55,18 @@ def list_command(update: Update, callback: CallbackContext, args):
 
     if len(args) == 1:
         if args[0] == 'registered':
-            bot.send_message(update.effective_chat.id, DataHolder.get_instance().registered_users)
+            users = DataHolder.get_instance().registered_users
+
+            data = []
+            for user, roll in users.items():
+                chat = bot.get_chat(user)
+                data.append(f'firstname: {chat.first_name},'
+                            f' username: @{chat.username},'
+                            f' roll: {"admin" if roll == DataHolder.ADMIN else "user"}')
+
+            bot.send_message(update.effective_chat.id, '\n'.join(data))
         elif args[0] == 'remaining':
-            bot.send_message(update.effective_chat.id, DataHolder.get_instance().remaining_valid_usernames)
+            bot.send_message(update.effective_chat.id, '\n'.join(DataHolder.get_instance().remaining_valid_usernames))
         else:
             bot.send_message(update.effective_chat.id, 'Check your command')
     else:
