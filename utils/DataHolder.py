@@ -75,3 +75,17 @@ class DataHolder:
 
     def remove_branches(self):
         self.__branches = []
+
+
+def roll_to_string(roll):
+    if roll == DataHolder.ADMIN:
+        return 'admin'
+    if roll == DataHolder.USER:
+        return 'user'
+
+
+def string_to_roll(string):
+    if string == 'admin':
+        return DataHolder.ADMIN
+    if string == 'user':
+        return DataHolder.USER

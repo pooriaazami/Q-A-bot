@@ -2,7 +2,7 @@ from telegram import Update, Bot, User, Message, Chat
 from telegram.ext import CallbackContext
 
 from utils.CommandMap import CommandMap
-from utils.DataHolder import DataHolder
+from utils.DataHolder import DataHolder, string_to_roll, roll_to_string
 
 
 def start(update: Update, callback: CallbackContext):
@@ -50,8 +50,7 @@ def add_command(update: Update, callback: CallbackContext, args):
     args[1] = args[1].lower()
 
     if len(args) == 2:
-        DataHolder.get_instance().push_new_valid_user(args[0],
-                                                      DataHolder.ADMIN if args[1] == 'admin' else DataHolder.USER)
+        DataHolder.get_instance().push_new_valid_user(args[0], string_to_roll(args[1]))
     else:
         bot.send_message(update.effective_chat.id, 'Check your command')
 
@@ -69,7 +68,7 @@ def list_command(update: Update, callback: CallbackContext, args):
                 chat = bot.get_chat(user)
                 data.append(f'firstname: {chat.first_name},'
                             f' username: @{chat.username},'
-                            f' roll: {"admin" if roll == DataHolder.ADMIN else "user"}')
+                            f' roll: {roll_to_string(roll)}')
 
             bot.send_message(update.effective_chat.id, '\n'.join(data))
         elif args[0] == 'remaining':

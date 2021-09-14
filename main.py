@@ -1,7 +1,7 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from utils.CommandMap import CommandMap
-from utils.DataHolder import DataHolder
+from utils.DataHolder import DataHolder, string_to_roll
 from utils.commnads import start, text_message_handler, begin_command, end_command, add_command, list_command, branch
 
 
@@ -19,7 +19,7 @@ def read_users():
         for line in file:
             username, roll = line.strip().split(' ')
             data_holder.push_new_valid_user(username,
-                                            DataHolder.ADMIN if roll == 'admin' else DataHolder.USER)
+                                            string_to_roll(roll))
 
 
 def main():
