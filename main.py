@@ -16,7 +16,6 @@ def read_token():
 def read_users():
     data_holder = DataHolder.get_instance()
 
-    cache = []
     block_roll = None
     with open('users.txt') as file:
         for line in file:
@@ -25,10 +24,8 @@ def read_users():
             if line.startswith('#'):
                 continue
             if line == 'end':
-                cache = []
                 block_roll = None
             elif block_roll is not None:
-                cache.append(line)
                 data_holder.push_new_valid_user(line, block_roll)
             elif line.startswith('multiple-input'):
                 regex = r'multiple-input \((.+)?\)'
