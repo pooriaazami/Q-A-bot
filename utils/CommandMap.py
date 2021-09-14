@@ -28,3 +28,9 @@ class CommandMap:
             return self.__map[command]['function']
 
         return self.error_command
+
+    def get_help(self, command_name):
+        if command_name in self.__map.keys():
+            return self.__map[command_name]['help']
+        else:
+            return 'Command not found'

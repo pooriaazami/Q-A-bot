@@ -143,6 +143,16 @@ def update_command(update: Update, callback: CallbackContext, args):
             bot.send_message(update.effective_chat.id, 'Done')
             bot.send_message(username, f'Your roll has benn changed to: {roll}')
         else:
-            bot.send_message(update.effective_chat.id, 'check your command 1')
+            bot.send_message(update.effective_chat.id, 'check your command')
     else:
-        bot.send_message(update.effective_chat.id, 'check your command 2')
+        bot.send_message(update.effective_chat.id, 'check your command')
+
+
+def help_command(update: Update, callback: CallbackContext, args):
+    bot = callback.bot
+
+    if len(args) == 1:
+        text = CommandMap.get_instance().get_help(args[0])
+        bot.send_message(update.effective_chat.id, text)
+    else:
+        bot.send_message(update.effective_chat.id, 'check your command')
