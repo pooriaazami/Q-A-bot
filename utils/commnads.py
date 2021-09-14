@@ -40,6 +40,7 @@ def end_command(update: Update, callback: CallbackContext, args):
 # add <username> <roll>
 def add_command(update: Update, callback: CallbackContext, args):
     bot = callback.bot
+    args[1] = args[1].lower()
 
     if len(args) == 2:
         DataHolder.get_instance().push_new_valid_user(args[0],
