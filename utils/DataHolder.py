@@ -9,6 +9,7 @@ class DataHolder:
     COMMAND_INPUT = 2
     MESSAGE_INPUT = 3
     WAIT = 4
+    SEND_INPUT = 5
     INVALID = -1
 
     def __init__(self):
@@ -16,6 +17,7 @@ class DataHolder:
             self.__valid_users = {}
             self.__states = {}
             self.__registered_users = {}
+            self.__data = {}
             self.__effective_chat_id = None
             self.__branches = []
             self.__message_count = 0
@@ -100,6 +102,15 @@ class DataHolder:
         for key, item in self.__states.items():
             if item == first:
                 self.__states[key] = second
+
+    def push_data(self, user_id, data):
+        self.__data[user_id] = data
+
+    def get_data(self, user_id):
+        return self.__data.get(user_id, None)
+
+    def pop_data(self, user_id):
+        del self.__data[user_id]
 
 
 def roll_to_string(roll):
