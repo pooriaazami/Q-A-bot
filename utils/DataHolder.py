@@ -16,6 +16,7 @@ class DataHolder:
             self.__states = {}
             self.__registered_users = {}
             self.__effective_chat_id = None
+            self.__branches = []
 
     @staticmethod
     def get_instance():
@@ -64,3 +65,13 @@ class DataHolder:
     @property
     def registered_users(self):
         return {username: self.__registered_users[username] for username in self.__registered_users.keys()}
+
+    def add_branch(self, chat_id):
+        self.__branches.append(chat_id)
+
+    @property
+    def branches(self):
+        return self.__branches
+
+    def remove_branches(self):
+        self.__branches = []

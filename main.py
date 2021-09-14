@@ -2,7 +2,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder
-from utils.commnads import start, text_message_handler, begin_command, end_command, add_command, list_command
+from utils.commnads import start, text_message_handler, begin_command, end_command, add_command, list_command, branch
 
 
 def read_token():
@@ -38,6 +38,7 @@ def main():
     command_map.add_command('end', end_command, 'end command help')
     command_map.add_command('add', add_command, 'add command help')
     command_map.add_command('list', list_command, 'list command help')
+    command_map.add_command('branch', branch, 'branch help')
 
     updater.start_polling()
 

@@ -35,6 +35,7 @@ def begin_command(update: Update, callback: CallbackContext, args):
 # end
 def end_command(update: Update, callback: CallbackContext, args):
     DataHolder.get_instance().effective_chat_id = None
+    DataHolder.get_instance().remove_branches()
 
 
 # add <username> <roll>
@@ -80,6 +81,20 @@ def process_text_commands(update: Update, callback: CallbackContext):
     CommandMap.get_instance().get_command(args[0])(update, callback, args[1:])
 
 
+def branch(update: Update, callback: CallbackContext, args):
+    bot = callback.bot
+
+    if len(args) == 0:
+        DataHolder.get_instance().add_branch(update.effective_chat.id)
+        bot.send_message(DataHolder.get_instance().effective_chat_id, 'new branch added')
+    else:
+        if args[0] == 'list':
+            data = [str(bot.get_chat(chat).title) for chat in DataHolder.get_instance().branches]
+
+            if len(data) != 0:
+                bot.send_message(update.effective_chat.id, '\n'.join(data))
+
+
 def text_message_handler(update: Update, callback: CallbackContext):
     user = update.effective_user
     bot = callback.bot
@@ -98,5 +113,9 @@ def text_message_handler(update: Update, callback: CallbackContext):
         process_text_commands(update, callback)
     elif data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
         bot.send_message(data_holder.get_instance().effective_chat_id, update.message.text)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_message(chat, update.message.text)
+
     else:
-        bot.send_message(user.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'Invalid message')
