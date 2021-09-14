@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder
-from utils.utils import string_to_roll, roll_to_string
+from utils.utils import string_to_roll, roll_to_string, get_destinations
 
 
 def start(update: Update, callback: CallbackContext):
@@ -21,16 +21,23 @@ def start(update: Update, callback: CallbackContext):
 
             data_holder.set_state(user.id, DataHolder.USERNAME_INPUT)
     else:
-        bot.send_message(update.effective_chat.id, 'You can only use start command in groups',
+        bot.send_message(update.effective_chat.id, 'You can only use start command in private chats',
                          reply_to_message_id=update.effective_message.message_id)
 
 
 # begin
 def begin_command(update: Update, callback: CallbackContext, args):
-    if DataHolder.get_instance().effective_chat_id is None:
-        DataHolder.get_instance().effective_chat_id = update.effective_chat.id
-        DataHolder.get_instance().update_all_states(DataHolder.WAIT, DataHolder.MESSAGE_INPUT)
+    data_holder = DataHolder.get_instance()
+    bot = callback.bot
+
+    if data_holder.effective_chat_id is None:
+        data_holder.effective_chat_id = update.effective_chat.id
+        data_holder.update_all_states(DataHolder.WAIT, DataHolder.MESSAGE_INPUT)
         callback.bot.send_message(DataHolder.get_instance().effective_chat_id, 'Q&A started')
+
+        destinations = get_destinations('users')
+        for destination in destinations:
+            bot.send_message(destination, 'You can now text us')
     else:
         callback.bot.send_message(update.effective_chat.id, 'Q&A is in progress')
 
