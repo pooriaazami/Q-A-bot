@@ -12,15 +12,16 @@ def start(update: Update, callback: CallbackContext):
     bot = callback.bot
 
     if update.effective_chat.type == 'private':
-        bot.send_message(user.id, "Welcome to Bitoks Q&A bot!")
-        bot.send_message(user.id, 'Please enter your username')
+        if user.id in DataHolder.get_instance().registered_users.keys():
+            bot.send_message(user.id, 'You have already registered')
+        else:
+            bot.send_message(user.id, "Welcome to Bitoks Q&A bot!")
+            bot.send_message(user.id, 'Please enter your username')
 
-        data_holder.set_state(user.id, DataHolder.USERNAME_INPUT)
+            data_holder.set_state(user.id, DataHolder.USERNAME_INPUT)
     else:
         bot.send_message(update.effective_chat.id, 'You can only use start command in groups',
                          reply_to_message_id=update.effective_message.message_id)
-
-        # reset states
 
 
 # begin
