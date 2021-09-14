@@ -2,8 +2,9 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder, string_to_roll
-from utils.commnads import begin, text_message_handler, begin_command, end_command, add_command, list_command, branch_command, \
-    report_command
+from utils.commnads import begin, text_message_handler, begin_command, end_command, add_command, list_command, \
+    branch_command, \
+    report_command, sticker_handler
 import re
 
 
@@ -48,6 +49,7 @@ def main():
 
     dispatcher.add_handler(CommandHandler('start', begin))
     dispatcher.add_handler(MessageHandler(Filters.text, text_message_handler))
+    dispatcher.add_handler(MessageHandler(Filters.sticker, sticker_handler))
 
     command_map.add_command('begin', begin_command, 'begin command help')
     command_map.add_command('end', end_command, 'end command help')

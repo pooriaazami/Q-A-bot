@@ -142,3 +142,19 @@ def text_message_handler(update: Update, callback: CallbackContext):
 
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
+
+
+def sticker_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
+        bot.send_sticker(data_holder.get_instance().effective_chat_id, update.message.sticker)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_sticker(chat, update.message.sticker)
+
+    else:
+        bot.send_message(update.effective_chat.id, 'Invalid message')
