@@ -5,7 +5,7 @@ from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder, string_to_roll, roll_to_string
 
 
-def begin(update: Update, callback: CallbackContext):
+def start(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     user = update.effective_user
@@ -17,7 +17,7 @@ def begin(update: Update, callback: CallbackContext):
 
         data_holder.set_state(user.id, DataHolder.USERNAME_INPUT)
     else:
-        bot.send_message(update.effective_chat.id, 'You can only use begin command in groups',
+        bot.send_message(update.effective_chat.id, 'You can only use start command in groups',
                          reply_to_message_id=update.effective_message.message_id)
 
         # reset states
