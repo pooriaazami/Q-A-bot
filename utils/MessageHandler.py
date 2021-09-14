@@ -169,8 +169,6 @@ def animation_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_animation(chat, update.message.animation)
-        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
-
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
