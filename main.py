@@ -29,14 +29,15 @@ def main():
 
     updater = Updater(token=token, use_context=True)
     dispatcher = updater.dispatcher
+    command_map = CommandMap.get_instance()
 
     dispatcher.add_handler(CommandHandler('start', start))
     dispatcher.add_handler(MessageHandler(Filters.text, text_message_handler))
 
-    CommandMap.get_instance().add_command('begin', begin_command, 'begin command help')
-    CommandMap.get_instance().add_command('end', end_command, 'end command help')
-    CommandMap.get_instance().add_command('add', add_command, 'add command help')
-    CommandMap.get_instance().add_command('list', list_command, 'list command help')
+    command_map.add_command('begin', begin_command, 'begin command help')
+    command_map.add_command('end', end_command, 'end command help')
+    command_map.add_command('add', add_command, 'add command help')
+    command_map.add_command('list', list_command, 'list command help')
 
     updater.start_polling()
 
