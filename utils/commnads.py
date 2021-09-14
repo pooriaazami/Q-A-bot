@@ -156,10 +156,11 @@ def text_message_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_message(destination, update.message.text)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_message(destination, update.message.text, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
@@ -182,10 +183,11 @@ def sticker_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_sticker(destination, update.message.sticker)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_sticker(destination, update.message.sticker, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
@@ -207,10 +209,12 @@ def voice_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_voice(destination, update.message.voice, caption=update.message.caption)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_voice(destination, update.message.voice, caption=update.message.caption,
+                               reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
@@ -236,10 +240,12 @@ def photo_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_photo(destination, update.message.photo[0], caption=update.message.caption)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_photo(destination, update.message.photo[0], caption=update.message.caption,
+                               reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
@@ -261,10 +267,11 @@ def contact_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_contact(destination, update.message.contact)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_contact(destination, update.message.contact, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
@@ -287,10 +294,11 @@ def animation_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_animation(destination, update.message.animation)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_animation(destination, update.message.animation, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
@@ -314,10 +322,12 @@ def document_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_document(destination, update.message.document, caption=update.message.caption)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_document(destination, update.message.document, caption=update.message.caption,
+                                  reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
@@ -341,10 +351,12 @@ def video_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_video(destination, update.message.video, caption=update.message.caption)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_video(destination, update.message.video, caption=update.message.caption,
+                               reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
@@ -369,10 +381,12 @@ def audio_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_audio(destination, update.message.audio, caption=update.message.caption)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_audio(destination, update.message.audio, caption=update.message.caption,
+                               reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
@@ -394,10 +408,12 @@ def video_note_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                bot.send_video_note(destination, update.message.video_note, caption=update.message.caption)
-            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+                message = bot.send_message(destination, 'admin message:')
+                bot.send_video_note(destination, update.message.video_note, caption=update.message.caption,
+                                    reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     else:
         bot.send_video_note(update.effective_chat.id, 'Invalid message')
