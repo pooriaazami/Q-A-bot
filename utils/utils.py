@@ -26,4 +26,17 @@ def get_destinations(title):
         return [DataHolder.get_instance().effective_chat_id]
     if title == 'all':
         ins = DataHolder.get_instance()
-        return list(ins.registered_users.keys()) + ins.branches + [ins.effective_chat_id]
+        result = []
+
+        temp = list(ins.registered_users.keys())
+        if len(temp) > 0:
+            result.extend(temp)
+
+        temp = ins.branches
+        if len(temp) > 0:
+            result.extend(temp)
+
+        if ins.effective_chat_id:
+            result.append(ins.effective_chat_id)
+
+        return result
