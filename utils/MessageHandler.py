@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 
 from utils.DataHolder import DataHolder
 from utils.commnads import process_text_commands
-from utils.utils import get_destinations
+from utils.utils import get_destinations, roll_to_string
 
 
 def text_message_handler(update: Update, callback: CallbackContext):
@@ -15,7 +15,7 @@ def text_message_handler(update: Update, callback: CallbackContext):
         if data_holder.get_valid_user(update.effective_message.text) != DataHolder.INVALID_USERNAME:
             roll = data_holder.register(user.id, update.effective_message.text)
             if roll:
-                bot.send_message(user.id, f'You have been registered as {roll}')
+                bot.send_message(user.id, f'You have been registered as {roll_to_string(roll)}')
             else:
                 bot.send_message(user.id, 'You have already registered')
         else:
