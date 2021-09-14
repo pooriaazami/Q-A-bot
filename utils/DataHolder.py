@@ -115,6 +115,12 @@ class DataHolder:
     def set_roll(self, user_id, new_roll):
         if user_id in self.__registered_users.keys():
             self.__registered_users[user_id] = new_roll
+
+            if new_roll == DataHolder.ADMIN:
+                self.__states[user_id] = DataHolder.COMMAND_INPUT
+            elif new_roll == DataHolder.USER:
+                self.__states[user_id] = DataHolder.MESSAGE_INPUT
+
             return True
 
         return False
