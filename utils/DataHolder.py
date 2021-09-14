@@ -7,7 +7,8 @@ class DataHolder:
 
     USERNAME_INPUT = 1
     COMMAND_INPUT = 2
-    TEXT_MESSAGE_INPUT = 3
+    MESSAGE_INPUT = 3
+    WAIT = 4
     INVALID = -1
 
     def __init__(self):
@@ -53,7 +54,10 @@ class DataHolder:
             if self.__registered_users[user_id] == DataHolder.ADMIN:
                 self.__states[user_id] = DataHolder.COMMAND_INPUT
             elif self.__registered_users[user_id] == DataHolder.USER:
-                self.__states[user_id] = DataHolder.TEXT_MESSAGE_INPUT
+                if self.__effective_chat_id is None:
+                    self.__states[user_id] = DataHolder.WAIT
+                else:
+                    self.__states[user_id] = DataHolder.MESSAGE_INPUT
 
             del self.__valid_users[username]
             return self.__registered_users[user_id]
@@ -83,6 +87,11 @@ class DataHolder:
     @property
     def count(self):
         return self.__message_count
+
+    def update_all_states(self, first, second):
+        for key, item in self.__states.items():
+            if item == first:
+                self.__states[key] = second
 
 
 def roll_to_string(roll):
