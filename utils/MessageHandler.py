@@ -29,6 +29,11 @@ def text_message_handler(update: Update, callback: CallbackContext):
         for chat in DataHolder.get_instance().branches:
             bot.send_message(chat, update.message.text)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
+        if update.message.text == '# cancel':
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+            bot.send_message(update.effective_chat.id, 'process canceled')
+            return
+
         destinations = get_destinations(data_holder.get_data(user.id))
 
         if destinations is not None:

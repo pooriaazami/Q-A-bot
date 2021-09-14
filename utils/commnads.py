@@ -127,3 +127,24 @@ def send_command(update: Update, callback: CallbackContext, args):
     else:
         callback.bot.send_message(update.effective_chat.id, 'check your command',
                                   reply_to_message_id=update.effective_message.message_id)
+
+
+def update_command(update: Update, callback: CallbackContext, args):
+    bot = callback.bot
+
+    if len(args) == 2:
+        username: str = args[0]
+        roll = args[1]
+
+        if username.startswith('@'):
+            username = callback.bot.get_chat(username).id
+
+        result = DataHolder.get_instance().set_roll(username, roll)
+
+        if result:
+            bot.send_message(update.effective_chat.id, 'Done')
+            bot.send_message(username, f'Your roll has benn changed to: {roll}')
+        else:
+            bot.send_message(update.effective_chat.id, 'check your command')
+    else:
+        bot.send_message(update.effective_chat.id, 'check your command')

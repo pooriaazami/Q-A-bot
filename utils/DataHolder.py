@@ -112,5 +112,9 @@ class DataHolder:
     def pop_data(self, user_id):
         del self.__data[user_id]
 
+    def set_roll(self, user_id, new_roll):
+        if user_id in self.__registered_users.keys():
+            self.__registered_users[user_id] = new_roll
+            return True
 
-
+        return False
