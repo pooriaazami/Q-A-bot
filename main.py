@@ -4,7 +4,8 @@ from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder, string_to_roll
 from utils.commnads import begin, text_message_handler, begin_command, end_command, add_command, list_command, \
     branch_command, \
-    report_command, sticker_handler
+    report_command, sticker_handler, voice_handler, dice_handler, animation_handler, contact_handler, audio_handler, \
+    video_handler, photo_handler
 import re
 
 
@@ -50,6 +51,13 @@ def main():
     dispatcher.add_handler(CommandHandler('start', begin))
     dispatcher.add_handler(MessageHandler(Filters.text, text_message_handler))
     dispatcher.add_handler(MessageHandler(Filters.sticker, sticker_handler))
+    dispatcher.add_handler(MessageHandler(Filters.voice, voice_handler))
+    dispatcher.add_handler(MessageHandler(Filters.dice, dice_handler))
+    dispatcher.add_handler(MessageHandler(Filters.animation, animation_handler))
+    dispatcher.add_handler(MessageHandler(Filters.contact, contact_handler))
+    dispatcher.add_handler(MessageHandler(Filters.audio, audio_handler))
+    dispatcher.add_handler(MessageHandler(Filters.video, video_handler))
+    dispatcher.add_handler(MessageHandler(Filters.photo, photo_handler))
 
     command_map.add_command('begin', begin_command, 'begin command help')
     command_map.add_command('end', end_command, 'end command help')

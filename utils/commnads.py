@@ -158,3 +158,136 @@ def sticker_handler(update: Update, callback: CallbackContext):
 
     else:
         bot.send_message(update.effective_chat.id, 'Invalid message')
+
+
+def voice_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
+        bot.send_voice(data_holder.get_instance().effective_chat_id, update.message.voice,
+                       caption=update.message.caption)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_voice(chat, update.message.voice, caption=update.message.caption)
+
+    else:
+        bot.send_message(update.effective_chat.id, 'Invalid message')
+
+
+def photo_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
+        bot.send_photo(data_holder.get_instance().effective_chat_id, update.message.photo,
+                       caption=update.message.caption)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_photo(chat, update.message.photo, caption=update.message.caption)
+
+    else:
+        bot.send_message(update.effective_chat.id, 'Invalid message')
+
+
+def contact_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
+        bot.send_contact(data_holder.get_instance().effective_chat_id, update.message.voice)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_contact(chat, update.message.contact)
+
+    else:
+        bot.send_message(update.effective_chat.id, 'Invalid message')
+
+
+def animation_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
+        bot.send_animation(data_holder.get_instance().effective_chat_id, update.message.voice)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_animation(chat, update.message.animation)
+
+        else:
+            bot.send_message(update.effective_chat.id, 'Invalid message')
+
+
+def document_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
+        bot.send_document(data_holder.get_instance().effective_chat_id, update.message.voice,
+                          caption=update.message.caption)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_document(chat, update.message.voice, caption=update.message.caption)
+
+    else:
+        bot.send_message(update.effective_chat.id, 'Invalid message')
+
+
+def video_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
+        bot.send_video(data_holder.get_instance().effective_chat_id, update.message.voice,
+                       caption=update.message.caption)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_video(chat, update.message.voice, caption=update.message.caption)
+
+    else:
+        bot.send_message(update.effective_chat.id, 'Invalid message')
+
+
+def dice_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
+        bot.send_dice(data_holder.get_instance().effective_chat_id, update.message.voice)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_dice(chat, update.message.dice)
+
+    else:
+        bot.send_message(update.effective_chat.id, 'Invalid message')
+
+
+def audio_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.TEXT_MESSAGE_INPUT:
+        data_holder.increase_message_count()
+        bot.send_audio(data_holder.get_instance().effective_chat_id, update.message.audio,
+                       caption=update.message.caption)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_audio(chat, update.message.voice, caption=update.message.audio)
+
+    else:
+        bot.send_message(update.effective_chat.id, 'Invalid message')
