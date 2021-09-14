@@ -114,11 +114,19 @@ def branch_command(update: Update, callback: CallbackContext, args):
 def report_command(update: Update, callback: CallbackContext, args):
     bot = callback.bot
 
-    count = DataHolder.get_instance().count
-    users = DataHolder.get_instance().registered_users
-    average = count / len(users)
+    counts = DataHolder.get_instance().count
 
-    bot.send_message(update.effective_chat.id, f'message_count: {count}\nusers: {len(users)}\naverage: {average}')
+    text = ''
+    total = 0
+    for key, value in counts.items():
+        text += f'{key}: {value}\n'
+        total += value
+
+    users = DataHolder.get_instance().registered_users
+    average = total / len(users)
+
+    bot.send_message(update.effective_chat.id,
+                     f'{text}\ntotal count: {total}\nusers: {len(users)}\naverage: {average}')
 
 
 def send_command(update: Update, callback: CallbackContext, args):

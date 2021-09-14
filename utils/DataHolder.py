@@ -20,7 +20,18 @@ class DataHolder:
             self.__data = {}
             self.__effective_chat_id = None
             self.__branches = []
-            self.__message_count = 0
+            self.__message_count = {
+                'text': 0,
+                'voice': 0,
+                'audio': 0,
+                'video message': 0,
+                'video': 0,
+                'file': 0,
+                'sticker': 0,
+                'photo': 0,
+                'contact': 0,
+                'gif': 0
+            }
 
     @staticmethod
     def get_instance():
@@ -91,8 +102,9 @@ class DataHolder:
     def remove_branches(self):
         self.__branches = []
 
-    def increase_message_count(self):
-        self.__message_count += 1
+    def increase_message_count(self, message_type):
+        if message_type in self.__message_count.keys():
+            self.__message_count[message_type] += 1
 
     @property
     def count(self):

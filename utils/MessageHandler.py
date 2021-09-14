@@ -23,7 +23,7 @@ def text_message_handler(update: Update, callback: CallbackContext):
     elif data_holder.get_state(user.id) == DataHolder.COMMAND_INPUT:
         process_text_commands(update, callback)
     elif data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('text')
         bot.send_message(data_holder.get_instance().effective_chat_id, update.message.text)
 
         for chat in DataHolder.get_instance().branches:
@@ -54,7 +54,7 @@ def sticker_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('sticker')
         bot.send_sticker(data_holder.get_instance().effective_chat_id, update.message.sticker)
 
         for chat in DataHolder.get_instance().branches:
@@ -80,7 +80,7 @@ def voice_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('voice')
         bot.send_voice(data_holder.get_instance().effective_chat_id, update.message.voice,
                        caption=update.message.caption)
 
@@ -107,7 +107,7 @@ def photo_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('photo')
 
         for item in update.message.photo:
             bot.send_photo(data_holder.get_instance().effective_chat_id, item.file_id,
@@ -138,7 +138,7 @@ def contact_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('contact')
         bot.send_contact(data_holder.get_instance().effective_chat_id, update.message.contact)
 
         for chat in DataHolder.get_instance().branches:
@@ -164,7 +164,7 @@ def animation_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('gif')
         bot.send_animation(data_holder.get_instance().effective_chat_id, update.message.animation)
 
         for chat in DataHolder.get_instance().branches:
@@ -188,7 +188,7 @@ def animation_handler(update: Update, callback: CallbackContext):
 def document_handler(update: Update, callback: CallbackContext):
     user = update.effective_user
     bot = callback.bot
-    data_holder = DataHolder.get_instance()
+    data_holder = DataHolder.get_instance('file')
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
         data_holder.increase_message_count()
@@ -220,7 +220,7 @@ def video_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('video')
         bot.send_video(data_holder.get_instance().effective_chat_id, update.message.video,
                        caption=update.message.caption)
 
@@ -250,7 +250,7 @@ def audio_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('audio')
         bot.send_audio(data_holder.get_instance().effective_chat_id, update.message.audio,
                        caption=update.message.caption)
 
@@ -280,7 +280,7 @@ def video_note_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('video message')
         bot.send_video_note(data_holder.get_instance().effective_chat_id, update.message.video_note)
 
         for chat in DataHolder.get_instance().branches:
