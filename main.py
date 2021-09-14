@@ -22,7 +22,7 @@ def read_users():
     data_holder = DataHolder.get_instance()
 
     block_roll = None
-    with open('users.txt') as file:
+    with open('users.txt', encoding='utf-8') as file:
         for line in file:
             line = line.strip()
 
