@@ -1,4 +1,4 @@
-from telegram import Update, Bot, User, Message, Chat
+from telegram import Update
 from telegram.ext import CallbackContext
 
 from utils.CommandMap import CommandMap
@@ -157,6 +157,7 @@ def text_message_handler(update: Update, callback: CallbackContext):
         if destinations is not None:
             for destination in destinations:
                 bot.send_message(destination, update.message.text)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
 
@@ -175,12 +176,14 @@ def sticker_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_sticker(chat, update.message.sticker)
+
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
         if destinations is not None:
             for destination in destinations:
                 bot.send_sticker(destination, update.message.sticker)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
     else:
@@ -205,6 +208,7 @@ def voice_handler(update: Update, callback: CallbackContext):
         if destinations is not None:
             for destination in destinations:
                 bot.send_voice(destination, update.message.voice, caption=update.message.caption)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
     else:
@@ -226,12 +230,14 @@ def photo_handler(update: Update, callback: CallbackContext):
         for item in update.message.photo:
             for chat in DataHolder.get_instance().branches:
                 bot.send_photo(chat, item.file_id, caption=update.message.caption)
+
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
         if destinations is not None:
             for destination in destinations:
                 bot.send_photo(destination, update.message.photo[0], caption=update.message.caption)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
     else:
@@ -249,12 +255,14 @@ def contact_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_contact(chat, update.message.contact)
+
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
         if destinations is not None:
             for destination in destinations:
                 bot.send_contact(destination, update.message.contact)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
     else:
@@ -272,6 +280,7 @@ def animation_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_animation(chat, update.message.animation)
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -279,6 +288,7 @@ def animation_handler(update: Update, callback: CallbackContext):
         if destinations is not None:
             for destination in destinations:
                 bot.send_animation(destination, update.message.animation)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
     else:
@@ -297,6 +307,7 @@ def document_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_document(chat, update.message.document, caption=update.message.caption)
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -304,6 +315,7 @@ def document_handler(update: Update, callback: CallbackContext):
         if destinations is not None:
             for destination in destinations:
                 bot.send_document(destination, update.message.document, caption=update.message.caption)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
     else:
@@ -322,6 +334,7 @@ def video_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_video(chat, update.message.video, caption=update.message.caption)
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -329,6 +342,7 @@ def video_handler(update: Update, callback: CallbackContext):
         if destinations is not None:
             for destination in destinations:
                 bot.send_video(destination, update.message.video, caption=update.message.caption)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
 
@@ -348,6 +362,7 @@ def audio_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_audio(chat, update.message.audio, caption=update.message.audio)
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -355,6 +370,7 @@ def audio_handler(update: Update, callback: CallbackContext):
         if destinations is not None:
             for destination in destinations:
                 bot.send_audio(destination, update.message.audio, caption=update.message.caption)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
 
@@ -379,6 +395,7 @@ def video_note_handler(update: Update, callback: CallbackContext):
         if destinations is not None:
             for destination in destinations:
                 bot.send_video_note(destination, update.message.video_note, caption=update.message.caption)
+            data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
 

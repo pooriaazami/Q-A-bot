@@ -1,12 +1,14 @@
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from utils.CommandMap import CommandMap
-from utils.DataHolder import DataHolder, string_to_roll
+from utils.DataHolder import DataHolder
 from utils.commnads import start, text_message_handler, begin_command, end_command, add_command, list_command, \
     branch_command, \
     report_command, sticker_handler, voice_handler, animation_handler, contact_handler, audio_handler, \
-    video_handler, photo_handler, video_note_handler
+    video_handler, photo_handler, video_note_handler, send_command
 import re
+
+from utils.utils import string_to_roll
 
 
 def read_token():
@@ -65,6 +67,7 @@ def main():
     command_map.add_command('list', list_command, 'list command help')
     command_map.add_command('branch', branch_command, 'branch help')
     command_map.add_command('report', report_command, 'report command help')
+    command_map.add_command('send', send_command, 'send command help')
 
     updater.start_polling()
 
