@@ -5,7 +5,7 @@ from utils.DataHolder import DataHolder
 from utils.MessageHandler import text_message_handler, sticker_handler, voice_handler, animation_handler, \
     contact_handler, audio_handler, video_handler, photo_handler, video_note_handler
 from utils.commnads import start, begin_command, end_command, add_command, list_command, \
-    branch_command, report_command, send_command, update_command, help_command
+    branch_command, report_command, send_command, update_command, help_command, reset_command
 import re
 
 from utils.utils import string_to_roll
@@ -70,6 +70,7 @@ def main():
     command_map.add_command('send', send_command, 'send command help')
     command_map.add_command('update', update_command, 'update command help')
     command_map.add_command('help', help_command, 'help command help')
+    command_map.add_command('reset', reset_command, 'reset command help')
 
     updater.start_polling()
 

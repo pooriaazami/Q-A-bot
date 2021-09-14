@@ -110,6 +110,10 @@ class DataHolder:
     def count(self):
         return self.__message_count
 
+    def reset_counts(self):
+        for key in self.__message_count.keys():
+            self.__message_count[key] = 0
+
     def update_all_states(self, first, second):
         for key, item in self.__states.items():
             if item == first:

@@ -171,3 +171,14 @@ def help_command(update: Update, callback: CallbackContext, args):
         bot.send_message(update.effective_chat.id, text)
     else:
         bot.send_message(update.effective_chat.id, 'check your command')
+
+
+def reset_command(update: Update, callback: CallbackContext, args):
+    bot = callback.bot
+
+    if len(args) == 1:
+        if args[0] == 'messages':
+            DataHolder.get_instance().reset_counts()
+            bot.send_message(update.effective_chat.id, 'Done')
+    else:
+        bot.send_message(update.effective_chat.id, 'Check your command')
