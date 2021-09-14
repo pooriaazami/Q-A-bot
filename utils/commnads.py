@@ -34,8 +34,13 @@ def begin_command(update: Update, callback: CallbackContext, args):
 
 # end
 def end_command(update: Update, callback: CallbackContext, args):
-    DataHolder.get_instance().effective_chat_id = None
-    DataHolder.get_instance().remove_branches()
+    bot = callback.bot
+
+    if update.effective_chat.id == DataHolder.get_instance().effective_chat_id:
+        DataHolder.get_instance().effective_chat_id = None
+        DataHolder.get_instance().remove_branches()
+    elif update.effective_chat.id in DataHolder.get_instance().branches:
+        bot.send_message(update.effective_chat.id, 'You can not end Q&A in a branch or pv')
 
 
 # add <username> <roll>
@@ -85,14 +90,19 @@ def branch(update: Update, callback: CallbackContext, args):
     bot = callback.bot
 
     if len(args) == 0:
-        DataHolder.get_instance().add_branch(update.effective_chat.id)
-        bot.send_message(DataHolder.get_instance().effective_chat_id, 'new branch added')
+        if DataHolder.get_instance().effective_chat_id is not None:
+            DataHolder.get_instance().add_branch(update.effective_chat.id)
+            bot.send_message(DataHolder.get_instance().effective_chat_id, 'new branch added')
+        else:
+            bot.send_message(update.effective_chat.id, 'Q&A has not started yet')
     else:
         if args[0] == 'list':
             data = [str(bot.get_chat(chat).title) for chat in DataHolder.get_instance().branches]
 
             if len(data) != 0:
                 bot.send_message(update.effective_chat.id, '\n'.join(data))
+            else:
+                bot.send_message(update.effective_chat.id, 'There is no branch')
 
 
 def text_message_handler(update: Update, callback: CallbackContext):
