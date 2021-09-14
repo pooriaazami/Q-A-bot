@@ -49,6 +49,21 @@ def add_command(update: Update, callback: CallbackContext, args):
         bot.send_message(update.effective_chat.id, 'Check your command')
 
 
+# list <registered | remaining>
+def list_command(update: Update, callback: CallbackContext, args):
+    bot = callback.bot
+
+    if len(args) == 1:
+        if args[0] == 'registered':
+            bot.send_message(update.effective_chat.id, DataHolder.get_instance().registered_users)
+        elif args[0] == 'remaining':
+            bot.send_message(update.effective_chat.id, DataHolder.get_instance().remaining_valid_usernames)
+        else:
+            bot.send_message(update.effective_chat.id, 'Check your command')
+    else:
+        bot.send_message(update.effective_chat.id, 'Check your command')
+
+
 def process_text_commands(update: Update, callback: CallbackContext):
     args = update.message.text.split(' ')
     args[0] = args[0].lower()

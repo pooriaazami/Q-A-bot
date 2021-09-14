@@ -56,3 +56,11 @@ class DataHolder:
             del self.__valid_users[username]
             return self.__registered_users[user_id]
         return None
+
+    @property
+    def remaining_valid_usernames(self):
+        return list(self.__valid_users.keys())
+
+    @property
+    def registered_users(self):
+        return {username: self.__registered_users[username] for username in self.__registered_users.keys()}
