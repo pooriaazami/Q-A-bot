@@ -109,13 +109,6 @@ def photo_handler(update: Update, callback: CallbackContext):
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
         data_holder.increase_message_count('photo')
 
-        # for item in update.message.photo:
-        #     bot.send_photo(data_holder.get_instance().effective_chat_id, item.file_id,
-        #                    caption=update.message.caption)
-        #
-        # for item in update.message.photo:
-        #     for chat in DataHolder.get_instance().branches:
-        #         bot.send_photo(chat, item.file_id, caption=update.message.caption)
         bot.copy_message(data_holder.effective_chat_id, update.effective_chat.id, update.effective_message.message_id)
 
         for chat in DataHolder.get_instance().branches:
@@ -190,10 +183,10 @@ def animation_handler(update: Update, callback: CallbackContext):
 def document_handler(update: Update, callback: CallbackContext):
     user = update.effective_user
     bot = callback.bot
-    data_holder = DataHolder.get_instance('file')
+    data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count()
+        data_holder.increase_message_count('file')
         bot.send_document(data_holder.get_instance().effective_chat_id, update.message.document,
                           caption=update.message.caption)
 
@@ -253,7 +246,8 @@ def audio_handler(update: Update, callback: CallbackContext):
                        caption=update.message.caption)
 
         for chat in DataHolder.get_instance().branches:
-            bot.send_audio(chat, update.message.audio, caption=update.message.audio)
+            bot.send_audio(chat, update.message.audio, caption=update.message.caption)
+
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -281,6 +275,7 @@ def video_note_handler(update: Update, callback: CallbackContext):
 
         for chat in DataHolder.get_instance().branches:
             bot.send_video_note(chat, update.message.video_note)
+
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
