@@ -23,7 +23,9 @@ def get_destinations(title):
     if title == 'branches':
         return DataHolder.get_instance().branches
     if title == 'main':
-        return [DataHolder.get_instance().effective_chat_id]
+        if DataHolder.get_instance().effective_chat_id:
+            return [DataHolder.get_instance().effective_chat_id]
+        return []
     if title == 'all':
         ins = DataHolder.get_instance()
         result = []
