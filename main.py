@@ -3,7 +3,7 @@ from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder
 from utils.MessageHandler import text_message_handler, sticker_handler, voice_handler, animation_handler, \
-    contact_handler, audio_handler, video_handler, photo_handler, video_note_handler
+    contact_handler, audio_handler, video_handler, photo_handler, video_note_handler, poll_handler
 from utils.commnads import start, begin_command, end_command, add_command, list_command, \
     branch_command, report_command, send_command, update_command, help_command, reset_command
 import re
@@ -60,6 +60,7 @@ def main():
     dispatcher.add_handler(MessageHandler(Filters.video, video_handler))
     dispatcher.add_handler(MessageHandler(Filters.photo, photo_handler))
     dispatcher.add_handler(MessageHandler(Filters.video_note, video_note_handler))
+    dispatcher.add_handler(MessageHandler(Filters.poll, poll_handler))
 
     command_map.add_command('begin', begin_command, 'begin command help')
     command_map.add_command('end', end_command, 'end command help')

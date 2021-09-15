@@ -290,3 +290,29 @@ def video_note_handler(update: Update, callback: CallbackContext):
 
     else:
         bot.send_video_note(update.effective_chat.id, 'Invalid message')
+
+
+def poll_handler(update: Update, callback: CallbackContext):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
+        data_holder.increase_message_count('video message')
+        bot.send_poll(data_holder.get_instance().effective_chat_id, update.message.poll)
+
+        for chat in DataHolder.get_instance().branches:
+            bot.send_poll(chat, update.message.poll)
+    elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
+        destinations = get_destinations(data_holder.get_data(user.id))
+
+        if destinations is not None:
+            for destination in destinations:
+                message = bot.send_message(destination, 'admin message:')
+                bot.forward_message(destination, update.effective_chat.id, update.effective_message.message_id)
+        else:
+            bot.send_message(update.effective_chat.id, 'invalid destination')
+        data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
+
+    else:
+        bot.send_video_note(update.effective_chat.id, 'Invalid message')
