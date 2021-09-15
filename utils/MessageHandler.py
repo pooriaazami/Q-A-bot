@@ -113,7 +113,8 @@ def photo_handler(update: Update, callback: CallbackContext):
         if update.effective_chat.type == 'private':
             data_holder.increase_message_count('photo')
 
-            bot.copy_message(data_holder.effective_chat_id, update.effective_chat.id, update.effective_message.message_id)
+            bot.copy_message(data_holder.effective_chat_id, update.effective_chat.id,
+                             update.effective_message.message_id)
 
             for chat in DataHolder.get_instance().branches:
                 bot.copy_message(chat, update.effective_chat.id,
