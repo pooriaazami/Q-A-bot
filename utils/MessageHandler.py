@@ -109,13 +109,18 @@ def photo_handler(update: Update, callback: CallbackContext):
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
         data_holder.increase_message_count('photo')
 
-        for item in update.message.photo:
-            bot.send_photo(data_holder.get_instance().effective_chat_id, item.file_id,
-                           caption=update.message.caption)
+        # for item in update.message.photo:
+        #     bot.send_photo(data_holder.get_instance().effective_chat_id, item.file_id,
+        #                    caption=update.message.caption)
+        #
+        # for item in update.message.photo:
+        #     for chat in DataHolder.get_instance().branches:
+        #         bot.send_photo(chat, item.file_id, caption=update.message.caption)
+        bot.copy_message(data_holder.effective_chat_id, update.effective_chat.id, update.effective_message.message_id)
 
-        for item in update.message.photo:
-            for chat in DataHolder.get_instance().branches:
-                bot.send_photo(chat, item.file_id, caption=update.message.caption)
+        for chat in DataHolder.get_instance().branches:
+            bot.copy_message(chat, update.effective_chat.id,
+                             update.effective_message.message_id)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
