@@ -8,7 +8,7 @@ from utils.commnads import start, begin_command, end_command, add_command, list_
     branch_command, report_command, send_command, update_command, help_command, reset_command
 import re
 
-from utils.utils import string_to_roll
+from utils.utils import string_to_role
 
 
 def read_token():
@@ -21,7 +21,7 @@ def read_token():
 def read_users():
     data_holder = DataHolder.get_instance()
 
-    block_roll = None
+    block_role = None
     with open('users.txt', encoding='utf-8') as file:
         for line in file:
             line = line.strip()
@@ -29,16 +29,16 @@ def read_users():
             if line.startswith('#'):
                 continue
             if line == 'end':
-                block_roll = None
-            elif block_roll is not None:
-                data_holder.push_new_valid_user(line, block_roll)
+                block_role = None
+            elif block_role is not None:
+                data_holder.push_new_valid_user(line, block_role)
             elif line.startswith('multiple-input'):
                 regex = r'multiple-input \((.+)?\)'
-                block_roll = string_to_roll(re.findall(regex, line)[0])
+                block_role = string_to_role(re.findall(regex, line)[0])
             elif line.count(' ') == 1:
-                username, roll = line.split(' ')
+                username, role = line.split(' ')
                 data_holder.push_new_valid_user(username,
-                                                string_to_roll(roll))
+                                                string_to_role(role))
 
 
 def main():

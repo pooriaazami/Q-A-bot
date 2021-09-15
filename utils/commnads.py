@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder
-from utils.utils import string_to_roll, roll_to_string, get_destinations
+from utils.utils import string_to_role, role_to_string, get_destinations
 
 
 def start(update: Update, callback: CallbackContext):
@@ -64,13 +64,13 @@ def end_command(update: Update, callback: CallbackContext, args):
         bot.send_message(update.effective_chat.id, 'You can not end Q&A in a branch or pv')
 
 
-# add <username> <roll>
+# add <username> <role>
 def add_command(update: Update, callback: CallbackContext, args):
     bot = callback.bot
     args[1] = args[1].lower()
 
     if len(args) == 2:
-        DataHolder.get_instance().push_new_valid_user(args[0], string_to_roll(args[1]))
+        DataHolder.get_instance().push_new_valid_user(args[0], string_to_role(args[1]))
     else:
         bot.send_message(update.effective_chat.id, 'Check your command')
 
@@ -84,11 +84,11 @@ def list_command(update: Update, callback: CallbackContext, args):
             users = DataHolder.get_instance().registered_users
 
             data = []
-            for user, roll in users.items():
+            for user, role in users.items():
                 chat = bot.get_chat(user)
                 data.append(f'firstname: {chat.first_name},'
                             f' username: @{chat.username},'
-                            f' roll: {roll_to_string(roll)},'
+                            f' role: {role_to_string(role)},'
                             f'id: {chat.id}')
 
             bot.send_message(update.effective_chat.id, '\n'.join(data))
@@ -160,13 +160,13 @@ def update_command(update: Update, callback: CallbackContext, args):
 
     if len(args) == 2:
         username = int(args[0])
-        roll = args[1]
+        role = args[1]
 
-        result = DataHolder.get_instance().set_roll(username, string_to_roll(roll))
+        result = DataHolder.get_instance().set_role(username, string_to_role(role))
 
         if result:
             bot.send_message(update.effective_chat.id, 'Done')
-            bot.send_message(username, f'Your roll has benn changed to: {roll}')
+            bot.send_message(username, f'Your role has benn changed to: {role}')
         else:
             bot.send_message(update.effective_chat.id, 'check your command')
     else:

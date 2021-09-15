@@ -48,8 +48,8 @@ class DataHolder:
     def effective_chat_id(self, value):
         self.__effective_chat_id = value
 
-    def push_new_valid_user(self, username, roll):
-        self.__valid_users[username] = roll
+    def push_new_valid_user(self, username, role):
+        self.__valid_users[username] = role
 
     def get_valid_user(self, username):
         return self.__valid_users.get(username, DataHolder.INVALID_USERNAME)
@@ -89,11 +89,11 @@ class DataHolder:
 
     @property
     def users(self):
-        return [user_id for user_id, roll in self.__registered_users.items() if roll == DataHolder.USER]
+        return [user_id for user_id, role in self.__registered_users.items() if role == DataHolder.USER]
 
     @property
     def admins(self):
-        return [user_id for user_id, roll in self.__registered_users.items() if roll == DataHolder.ADMIN]
+        return [user_id for user_id, role in self.__registered_users.items() if role == DataHolder.ADMIN]
 
     @property
     def branches(self):
@@ -128,13 +128,13 @@ class DataHolder:
     def pop_data(self, user_id):
         del self.__data[user_id]
 
-    def set_roll(self, user_id, new_roll):
+    def set_role(self, user_id, new_role):
         if user_id in self.__registered_users.keys():
-            self.__registered_users[user_id] = new_roll
+            self.__registered_users[user_id] = new_role
 
-            if new_roll == DataHolder.ADMIN:
+            if new_role == DataHolder.ADMIN:
                 self.__states[user_id] = DataHolder.COMMAND_INPUT
-            elif new_roll == DataHolder.USER:
+            elif new_role == DataHolder.USER:
                 self.__states[user_id] = DataHolder.MESSAGE_INPUT
 
             return True

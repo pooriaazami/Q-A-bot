@@ -1,14 +1,14 @@
 from utils.DataHolder import DataHolder
 
 
-def roll_to_string(roll):
-    if roll == DataHolder.ADMIN:
+def role_to_string(role):
+    if role == DataHolder.ADMIN:
         return 'admin'
-    if roll == DataHolder.USER:
+    if role == DataHolder.USER:
         return 'user'
 
 
-def string_to_roll(string):
+def string_to_role(string):
     if string == 'admin':
         return DataHolder.ADMIN
     if string == 'user':
