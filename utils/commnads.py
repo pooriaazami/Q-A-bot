@@ -45,7 +45,7 @@ def begin_command(update: Update, callback: CallbackContext, args):
 # end
 def end_command(update: Update, callback: CallbackContext, args):
     bot = callback.bot
-    data_holder = DataHolder.get_data()
+    data_holder = DataHolder.get_instance()
 
     if update.effective_chat.id == data_holder.effective_chat_id:
         data_holder.effective_chat_id = None
@@ -53,6 +53,12 @@ def end_command(update: Update, callback: CallbackContext, args):
         data_holder.update_all_states(DataHolder.MESSAGE_INPUT, DataHolder.WAIT)
         data_holder.update_all_states(DataHolder.SEND_INPUT, DataHolder.COMMAND_INPUT)
 
+        destinations = get_destinations('all')
+
+        for chat in destinations:
+            bot.send_message(chat, 'Q&A is over. Hope see you soon.')
+
+        data_holder.remove_branches()
         bot.send_message(update.effective_chat.id, 'Done')
     elif update.effective_chat.id in data_holder.branches:
         bot.send_message(update.effective_chat.id, 'You can not end Q&A in a branch or pv')
