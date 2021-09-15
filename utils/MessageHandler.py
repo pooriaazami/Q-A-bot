@@ -298,17 +298,13 @@ def poll_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('video message')
-        bot.send_poll(data_holder.get_instance().effective_chat_id, update.message.poll)
+        bot.send_message(update.effective_chat.id, 'You can not send polls')
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_poll(chat, update.message.poll)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
                 bot.forward_message(destination, update.effective_chat.id, update.effective_message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
