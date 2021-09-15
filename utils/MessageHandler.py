@@ -23,11 +23,12 @@ def text_message_handler(update: Update, callback: CallbackContext):
     elif data_holder.get_state(user.id) == DataHolder.COMMAND_INPUT:
         process_text_commands(update, callback)
     elif data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('text')
-        bot.send_message(data_holder.get_instance().effective_chat_id, update.message.text)
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('text')
+            bot.send_message(data_holder.get_instance().effective_chat_id, update.message.text)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_message(chat, update.message.text)
+            for chat in DataHolder.get_instance().branches:
+                bot.send_message(chat, update.message.text)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         if update.message.text == '# cancel':
             data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -44,7 +45,7 @@ def text_message_handler(update: Update, callback: CallbackContext):
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
@@ -54,11 +55,12 @@ def sticker_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('sticker')
-        bot.send_sticker(data_holder.get_instance().effective_chat_id, update.message.sticker)
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('sticker')
+            bot.send_sticker(data_holder.get_instance().effective_chat_id, update.message.sticker)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_sticker(chat, update.message.sticker)
+            for chat in DataHolder.get_instance().branches:
+                bot.send_sticker(chat, update.message.sticker)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -70,7 +72,7 @@ def sticker_handler(update: Update, callback: CallbackContext):
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
@@ -80,12 +82,13 @@ def voice_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('voice')
-        bot.send_voice(data_holder.get_instance().effective_chat_id, update.message.voice,
-                       caption=update.message.caption)
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('voice')
+            bot.send_voice(data_holder.get_instance().effective_chat_id, update.message.voice,
+                           caption=update.message.caption)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_voice(chat, update.message.voice, caption=update.message.caption)
+            for chat in DataHolder.get_instance().branches:
+                bot.send_voice(chat, update.message.voice, caption=update.message.caption)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -97,7 +100,7 @@ def voice_handler(update: Update, callback: CallbackContext):
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
@@ -107,13 +110,14 @@ def photo_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('photo')
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('photo')
 
-        bot.copy_message(data_holder.effective_chat_id, update.effective_chat.id, update.effective_message.message_id)
+            bot.copy_message(data_holder.effective_chat_id, update.effective_chat.id, update.effective_message.message_id)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.copy_message(chat, update.effective_chat.id,
-                             update.effective_message.message_id)
+            for chat in DataHolder.get_instance().branches:
+                bot.copy_message(chat, update.effective_chat.id,
+                                 update.effective_message.message_id)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -126,7 +130,7 @@ def photo_handler(update: Update, callback: CallbackContext):
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
@@ -136,11 +140,12 @@ def contact_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('contact')
-        bot.send_contact(data_holder.get_instance().effective_chat_id, update.message.contact)
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('contact')
+            bot.send_contact(data_holder.get_instance().effective_chat_id, update.message.contact)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_contact(chat, update.message.contact)
+            for chat in DataHolder.get_instance().branches:
+                bot.send_contact(chat, update.message.contact)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -152,7 +157,7 @@ def contact_handler(update: Update, callback: CallbackContext):
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
@@ -162,11 +167,12 @@ def animation_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('gif')
-        bot.send_animation(data_holder.get_instance().effective_chat_id, update.message.animation)
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('gif')
+            bot.send_animation(data_holder.get_instance().effective_chat_id, update.message.animation)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_animation(chat, update.message.animation)
+            for chat in DataHolder.get_instance().branches:
+                bot.send_animation(chat, update.message.animation)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -176,7 +182,7 @@ def animation_handler(update: Update, callback: CallbackContext):
                 bot.send_animation(destination, update.message.animation, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
@@ -186,12 +192,14 @@ def document_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('file')
-        bot.send_document(data_holder.get_instance().effective_chat_id, update.message.document,
-                          caption=update.message.caption)
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('file')
+            bot.send_document(data_holder.get_instance().effective_chat_id, update.message.document,
+                              caption=update.message.caption)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_document(chat, update.message.document, caption=update.message.caption)
+            for chat in DataHolder.get_instance().branches:
+                bot.send_document(chat, update.message.document, caption=update.message.caption)
+
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -203,7 +211,7 @@ def document_handler(update: Update, callback: CallbackContext):
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
@@ -213,12 +221,13 @@ def video_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('video')
-        bot.send_video(data_holder.get_instance().effective_chat_id, update.message.video,
-                       caption=update.message.caption)
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('video')
+            bot.send_video(data_holder.get_instance().effective_chat_id, update.message.video,
+                           caption=update.message.caption)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_video(chat, update.message.video, caption=update.message.caption)
+            for chat in DataHolder.get_instance().branches:
+                bot.send_video(chat, update.message.video, caption=update.message.caption)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -231,7 +240,7 @@ def video_handler(update: Update, callback: CallbackContext):
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
@@ -241,12 +250,13 @@ def audio_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('audio')
-        bot.send_audio(data_holder.get_instance().effective_chat_id, update.message.audio,
-                       caption=update.message.caption)
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('audio')
+            bot.send_audio(data_holder.get_instance().effective_chat_id, update.message.audio,
+                           caption=update.message.caption)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_audio(chat, update.message.audio, caption=update.message.caption)
+            for chat in DataHolder.get_instance().branches:
+                bot.send_audio(chat, update.message.audio, caption=update.message.caption)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -260,7 +270,7 @@ def audio_handler(update: Update, callback: CallbackContext):
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_message(update.effective_chat.id, 'Invalid message')
 
 
@@ -270,11 +280,12 @@ def video_note_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        data_holder.increase_message_count('video message')
-        bot.send_video_note(data_holder.get_instance().effective_chat_id, update.message.video_note)
+        if update.effective_chat.type == 'private':
+            data_holder.increase_message_count('video message')
+            bot.send_video_note(data_holder.get_instance().effective_chat_id, update.message.video_note)
 
-        for chat in DataHolder.get_instance().branches:
-            bot.send_video_note(chat, update.message.video_note)
+            for chat in DataHolder.get_instance().branches:
+                bot.send_video_note(chat, update.message.video_note)
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -288,7 +299,7 @@ def video_note_handler(update: Update, callback: CallbackContext):
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_video_note(update.effective_chat.id, 'Invalid message')
 
 
@@ -310,5 +321,5 @@ def poll_handler(update: Update, callback: CallbackContext):
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
-    else:
+    elif update.effective_chat.type == 'private':
         bot.send_video_note(update.effective_chat.id, 'Invalid message')
