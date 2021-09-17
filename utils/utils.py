@@ -42,3 +42,12 @@ def get_destinations(title):
             result.append(ins.effective_chat_id)
 
         return result
+
+def translate_role(role):
+    if role == 'admin':
+        return 'مدیر'
+    if role == 'user':
+        return 'کاربر'
+
+    return '---'
+

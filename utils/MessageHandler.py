@@ -3,7 +3,7 @@ from telegram.ext import CallbackContext
 
 from utils.DataHolder import DataHolder
 from utils.commnads import process_text_commands
-from utils.utils import get_destinations, role_to_string
+from utils.utils import get_destinations
 
 
 def text_message_handler(update: Update, callback: CallbackContext):
@@ -15,11 +15,11 @@ def text_message_handler(update: Update, callback: CallbackContext):
         if data_holder.get_valid_user(update.effective_message.text) != DataHolder.INVALID_USERNAME:
             role = data_holder.register(user.id, update.effective_message.text)
             if role:
-                bot.send_message(user.id, f'You have been registered as {role_to_string(role)}')
+                bot.send_message(user.id, f'سلام {user.first_name} 😉')
             else:
-                bot.send_message(user.id, 'You have already registered')
+                bot.send_message(user.id, 'قبلا وارد شده بودید 😕')
         else:
-            bot.send_message(user.id, 'Invalid username')
+            bot.send_message(user.id, 'متوجه نشدم 😕')
     elif data_holder.get_state(user.id) == DataHolder.COMMAND_INPUT:
         process_text_commands(update, callback)
     elif data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
@@ -39,14 +39,14 @@ def text_message_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_message(destination, update.message.text, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     elif update.effective_chat.type == 'private':
-        bot.send_message(update.effective_chat.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def sticker_handler(update: Update, callback: CallbackContext):
@@ -67,13 +67,13 @@ def sticker_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_sticker(destination, update.message.sticker, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     elif update.effective_chat.type == 'private':
-        bot.send_message(update.effective_chat.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def voice_handler(update: Update, callback: CallbackContext):
@@ -94,14 +94,14 @@ def voice_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_voice(destination, update.message.voice, caption=update.message.caption,
                                reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     elif update.effective_chat.type == 'private':
-        bot.send_message(update.effective_chat.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def photo_handler(update: Update, callback: CallbackContext):
@@ -125,14 +125,14 @@ def photo_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_photo(destination, update.message.photo[0], caption=update.message.caption,
                                reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     elif update.effective_chat.type == 'private':
-        bot.send_message(update.effective_chat.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def contact_handler(update: Update, callback: CallbackContext):
@@ -153,13 +153,13 @@ def contact_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_contact(destination, update.message.contact, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     elif update.effective_chat.type == 'private':
-        bot.send_message(update.effective_chat.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def animation_handler(update: Update, callback: CallbackContext):
@@ -179,12 +179,12 @@ def animation_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_animation(destination, update.message.animation, reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
     elif update.effective_chat.type == 'private':
-        bot.send_message(update.effective_chat.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def document_handler(update: Update, callback: CallbackContext):
@@ -206,14 +206,14 @@ def document_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_document(destination, update.message.document, caption=update.message.caption,
                                   reply_to_message_id=message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
     elif update.effective_chat.type == 'private':
-        bot.send_message(update.effective_chat.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def video_handler(update: Update, callback: CallbackContext):
@@ -234,7 +234,7 @@ def video_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_video(destination, update.message.video, caption=update.message.caption,
                                reply_to_message_id=message.message_id)
         else:
@@ -242,7 +242,7 @@ def video_handler(update: Update, callback: CallbackContext):
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     elif update.effective_chat.type == 'private':
-        bot.send_message(update.effective_chat.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def audio_handler(update: Update, callback: CallbackContext):
@@ -264,7 +264,7 @@ def audio_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_audio(destination, update.message.audio, caption=update.message.caption,
                                reply_to_message_id=message.message_id)
         else:
@@ -272,7 +272,7 @@ def audio_handler(update: Update, callback: CallbackContext):
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     elif update.effective_chat.type == 'private':
-        bot.send_message(update.effective_chat.id, 'Invalid message')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def video_note_handler(update: Update, callback: CallbackContext):
@@ -293,7 +293,7 @@ def video_note_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'admin message:')
+                message = bot.send_message(destination, 'پیام admin')
                 bot.send_video_note(destination, update.message.video_note, caption=update.message.caption,
                                     reply_to_message_id=message.message_id)
         else:
@@ -301,7 +301,7 @@ def video_note_handler(update: Update, callback: CallbackContext):
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     elif update.effective_chat.type == 'private':
-        bot.send_video_note(update.effective_chat.id, 'Invalid message')
+        bot.send_video_note(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
 def poll_handler(update: Update, callback: CallbackContext):
@@ -310,7 +310,7 @@ def poll_handler(update: Update, callback: CallbackContext):
     data_holder = DataHolder.get_instance()
 
     if data_holder.get_state(user.id) == DataHolder.MESSAGE_INPUT:
-        bot.send_message(update.effective_chat.id, 'You can not send polls')
+        bot.send_message(update.effective_chat.id, 'نمیشه نظرسنجی فرستاد 😔')
 
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
@@ -323,4 +323,4 @@ def poll_handler(update: Update, callback: CallbackContext):
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
 
     elif update.effective_chat.type == 'private':
-        bot.send_video_note(update.effective_chat.id, 'Invalid message')
+        bot.send_video_note(update.effective_chat.id, 'متوجه نشدم 😕')
