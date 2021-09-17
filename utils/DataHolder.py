@@ -140,3 +140,6 @@ class DataHolder:
             return True
 
         return False
+
+    def reset_usernames(self):
+        pass
