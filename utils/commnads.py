@@ -93,7 +93,10 @@ def list_command(update: Update, callback: CallbackContext, args):
                             f' role: {role_to_string(role)},'
                             f'id: {chat.id}')
 
-            bot.send_message(update.effective_chat.id, '\n'.join(data))
+            if data:
+                bot.send_message(update.effective_chat.id, '\n'.join(data))
+            else:
+                bot.send_message(update.effective_chat.id, 'هنوزهیچ کسی نشده')
         elif args[0] == 'remaining':
             temp = DataHolder.get_instance().remaining_valid_usernames
             if temp:
