@@ -99,9 +99,6 @@ class DataHolder:
     def branches(self):
         return self.__branches
 
-    def remove_branches(self):
-        self.__branches = []
-
     def increase_message_count(self, message_type):
         if message_type in self.__message_count.keys():
             self.__message_count[message_type] += 1
@@ -141,5 +138,7 @@ class DataHolder:
 
         return False
 
-    def reset_usernames(self):
-        pass
+    @staticmethod
+    def reset():
+        DataHolder.__instance = None
+        DataHolder.__instance = DataHolder()

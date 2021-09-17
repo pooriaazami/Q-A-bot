@@ -3,6 +3,7 @@ from telegram.ext import CallbackContext
 
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder
+from utils.initial_actions import read_users
 from utils.utils import string_to_role, role_to_string, get_destinations
 
 
@@ -62,7 +63,9 @@ def end_command(update: Update, callback: CallbackContext, args):
             bot.send_message(chat, '📣')
             bot.send_message(chat, 'ممنون که ما رو همراهی کردید.\n به امید دیدار 👋')
 
-        data_holder.remove_branches()
+        data_holder.reset()
+        read_users()
+
         bot.send_message(update.effective_chat.id, 'انجام شد')
     elif update.effective_chat.id in data_holder.branches:
         bot.send_message(update.effective_chat.id, 'فقط در گروه اصلی میتوان مراسم را خاتمه داد')
