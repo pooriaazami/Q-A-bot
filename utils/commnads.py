@@ -44,7 +44,8 @@ def begin_command(update: Update, callback: CallbackContext, args):
             bot.send_message(destination, '📣')
             bot.send_message(destination, 'جلسه شروع شد 🎉')
     else:
-        callback.bot.send_message(update.effective_chat.id, 'جلسه در حال برگزاریه')
+        callback.bot.send_message(update.effective_chat.id, 'جلسه در حال برگزاریه',
+                                  reply_to_message_id=update.message.message_id)
 
 
 def end_command(update: Update, callback: CallbackContext, args):
@@ -68,7 +69,8 @@ def end_command(update: Update, callback: CallbackContext, args):
 
         bot.send_message(update.effective_chat.id, 'انجام شد')
     elif update.effective_chat.id in data_holder.branches:
-        bot.send_message(update.effective_chat.id, 'فقط در گروه اصلی میتوان مراسم را خاتمه داد')
+        bot.send_message(update.effective_chat.id, 'فقط در گروه اصلی میتوان مراسم را خاتمه داد',
+                         reply_to_message_id=update.message.message_id)
 
 
 def add_command(update: Update, callback: CallbackContext, args):
@@ -78,7 +80,7 @@ def add_command(update: Update, callback: CallbackContext, args):
     if len(args) == 2:
         DataHolder.get_instance().push_new_valid_user(args[0], string_to_role(args[1]))
     else:
-        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕', reply_to_message_id=update.message.message_id)
 
 
 def list_command(update: Update, callback: CallbackContext, args):
@@ -97,15 +99,19 @@ def list_command(update: Update, callback: CallbackContext, args):
                             f'id: {chat.id}')
 
             if data:
-                bot.send_message(update.effective_chat.id, '\n'.join(data))
+                bot.send_message(update.effective_chat.id, '\n'.join(data),
+                                 reply_to_message_id=update.message.message_id)
             else:
-                bot.send_message(update.effective_chat.id, 'هنوزهیچ کسی نشده')
+                bot.send_message(update.effective_chat.id, 'هنوزهیچ کسی وارد نشده',
+                                 reply_to_message_id=update.message.message_id)
         elif args[0] == 'remaining':
             temp = DataHolder.get_instance().remaining_valid_usernames
             if temp:
-                bot.send_message(update.effective_chat.id, '\n'.join(temp))
+                bot.send_message(update.effective_chat.id, '\n'.join(temp),
+                                 reply_to_message_id=update.message.message_id)
             else:
-                bot.send_message(update.effective_chat.id, 'همه وارد شدن 🎉')
+                bot.send_message(update.effective_chat.id, 'همه وارد شدن 🎉',
+                                 reply_to_message_id=update.message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
     else:
@@ -127,17 +133,20 @@ def branch_command(update: Update, callback: CallbackContext, args):
             DataHolder.get_instance().add_branch(update.effective_chat.id)
             bot.send_message(DataHolder.get_instance().effective_chat_id,
                              f'new branch added\n{update.effective_chat.title}')
-            bot.send_message(update.effective_chat.id, 'انجام شد')
+            bot.send_message(update.effective_chat.id, 'انجام شد', reply_to_message_id=update.message.message_id)
         else:
-            bot.send_message(update.effective_chat.id, 'دوست عزیز برنامه هنوز شروع نشده')
+            bot.send_message(update.effective_chat.id, 'دوست عزیز برنامه هنوز شروع نشده',
+                             reply_to_message_id=update.message.message_id)
     else:
         if args[0] == 'list':
             data = [str(bot.get_chat(chat).title) for chat in DataHolder.get_instance().branches]
 
             if len(data) != 0:
-                bot.send_message(update.effective_chat.id, '\n'.join(data))
+                bot.send_message(update.effective_chat.id, '\n'.join(data),
+                                 reply_to_message_id=update.message.message_id)
             else:
-                bot.send_message(update.effective_chat.id, 'There is no branch')
+                bot.send_message(update.effective_chat.id, 'There is no branch',
+                                 reply_to_message_id=update.message.message_id)
 
 
 def report_command(update: Update, callback: CallbackContext, args):
@@ -155,7 +164,8 @@ def report_command(update: Update, callback: CallbackContext, args):
     average = total / len(users)
 
     bot.send_message(update.effective_chat.id,
-                     f'{text}\ntotal count: {total}\nusers: {len(users)}\naverage: {average}')
+                     f'{text}\ntotal count: {total}\nusers: {len(users)}\naverage: {average}',
+                     reply_to_message_id=update.message.message_id)
 
 
 def send_command(update: Update, callback: CallbackContext, args):
@@ -177,8 +187,8 @@ def update_command(update: Update, callback: CallbackContext, args):
         result = DataHolder.get_instance().set_role(username, string_to_role(role))
 
         if result:
-            bot.send_message(update.effective_chat.id, 'انجام شد ')
-            bot.send_message(username, f'Your role has benn changed to: {role}')
+            bot.send_message(update.effective_chat.id, 'انجام شد ', reply_to_message_id=update.message.message_id)
+            bot.send_message(username, f'نقش شما به {role} تغییر کرد', reply_to_message_id=update.message.message_id)
         else:
             bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
     else:
@@ -192,7 +202,7 @@ def help_command(update: Update, callback: CallbackContext, args):
         text = CommandMap.get_instance().get_help(args[0])
         bot.send_message(update.effective_chat.id, text)
     else:
-        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕', reply_to_message_id=update.message.message_id)
 
 
 def reset_command(update: Update, callback: CallbackContext, args):
@@ -201,6 +211,6 @@ def reset_command(update: Update, callback: CallbackContext, args):
     if len(args) == 1:
         if args[0] == 'messages':
             DataHolder.get_instance().reset_counts()
-            bot.send_message(update.effective_chat.id, 'انجام شد')
+            bot.send_message(update.effective_chat.id, 'انجام شد', reply_to_message_id=update.message.message_id)
     else:
-        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
+        bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕', reply_to_message_id=update.message.message_id)
