@@ -29,6 +29,8 @@ def text_message_handler(update: Update, callback: CallbackContext):
 
             for chat in DataHolder.get_instance().branches:
                 bot.send_message(chat, update.message.text)
+
+            bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         if update.message.text == '# cancel':
             data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -62,6 +64,7 @@ def sticker_handler(update: Update, callback: CallbackContext):
             for chat in DataHolder.get_instance().branches:
                 bot.send_sticker(chat, update.message.sticker)
 
+            bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -89,6 +92,8 @@ def voice_handler(update: Update, callback: CallbackContext):
 
             for chat in DataHolder.get_instance().branches:
                 bot.send_voice(chat, update.message.voice, caption=update.message.caption)
+
+            bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -120,6 +125,7 @@ def photo_handler(update: Update, callback: CallbackContext):
                 bot.copy_message(chat, update.effective_chat.id,
                                  update.effective_message.message_id)
 
+            bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -148,6 +154,7 @@ def contact_handler(update: Update, callback: CallbackContext):
             for chat in DataHolder.get_instance().branches:
                 bot.send_contact(chat, update.message.contact)
 
+            bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -174,6 +181,8 @@ def animation_handler(update: Update, callback: CallbackContext):
 
             for chat in DataHolder.get_instance().branches:
                 bot.send_animation(chat, update.message.animation)
+
+            bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -201,6 +210,7 @@ def document_handler(update: Update, callback: CallbackContext):
             for chat in DataHolder.get_instance().branches:
                 bot.send_document(chat, update.message.document, caption=update.message.caption)
 
+        bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -229,6 +239,9 @@ def video_handler(update: Update, callback: CallbackContext):
 
             for chat in DataHolder.get_instance().branches:
                 bot.send_video(chat, update.message.video, caption=update.message.caption)
+
+            bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
+
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -259,6 +272,8 @@ def audio_handler(update: Update, callback: CallbackContext):
             for chat in DataHolder.get_instance().branches:
                 bot.send_audio(chat, update.message.audio, caption=update.message.caption)
 
+            bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
+
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
@@ -288,6 +303,7 @@ def video_note_handler(update: Update, callback: CallbackContext):
             for chat in DataHolder.get_instance().branches:
                 bot.send_video_note(chat, update.message.video_note)
 
+            bot.send_message(user.id, 'فرستادم', reply_to_message_id=update.effective_message.message_id)
     elif data_holder.get_state(user.id) == DataHolder.SEND_INPUT:
         destinations = get_destinations(data_holder.get_data(user.id))
 
