@@ -1,5 +1,6 @@
 .idea
 token.txt
 utils/__pycache__/
+__pychache__/
 database/
 users.txt
