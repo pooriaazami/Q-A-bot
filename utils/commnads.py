@@ -29,7 +29,6 @@ def start(update: Update, callback: CallbackContext):
                          reply_to_message_id=update.effective_message.message_id)
 
 
-# begin
 def begin_command(update: Update, callback: CallbackContext, args):
     data_holder = DataHolder.get_instance()
     bot = callback.bot
@@ -47,7 +46,6 @@ def begin_command(update: Update, callback: CallbackContext, args):
         callback.bot.send_message(update.effective_chat.id, 'جلسه در حال برگزاریه')
 
 
-# end
 def end_command(update: Update, callback: CallbackContext, args):
     bot = callback.bot
     data_holder = DataHolder.get_instance()
@@ -70,7 +68,6 @@ def end_command(update: Update, callback: CallbackContext, args):
         bot.send_message(update.effective_chat.id, 'فقط در گروه اصلی میتوان مراسم را خاتمه داد')
 
 
-# add <username> <role>
 def add_command(update: Update, callback: CallbackContext, args):
     bot = callback.bot
     args[1] = args[1].lower()
@@ -81,7 +78,6 @@ def add_command(update: Update, callback: CallbackContext, args):
         bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
 
 
-# list <registered | remaining>
 def list_command(update: Update, callback: CallbackContext, args):
     bot = callback.bot
 
@@ -99,7 +95,11 @@ def list_command(update: Update, callback: CallbackContext, args):
 
             bot.send_message(update.effective_chat.id, '\n'.join(data))
         elif args[0] == 'remaining':
-            bot.send_message(update.effective_chat.id, '\n'.join(DataHolder.get_instance().remaining_valid_usernames))
+            temp = DataHolder.get_instance().remaining_valid_usernames
+            if temp:
+                bot.send_message(update.effective_chat.id, '\n'.join(temp))
+            else:
+                bot.send_message(update.effective_chat.id, 'همه وارد شدن 🎉')
         else:
             bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕')
     else:
