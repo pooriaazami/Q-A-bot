@@ -1,3 +1,4 @@
+import telegram
 from telegram import Update
 from telegram.ext import CallbackContext
 
@@ -41,8 +42,12 @@ def text_message_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_message(destination, update.message.text, reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_message(destination, update.message.text, reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
+
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -70,8 +75,11 @@ def sticker_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_sticker(destination, update.message.sticker, reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_sticker(destination, update.message.sticker, reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -99,9 +107,12 @@ def voice_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_voice(destination, update.message.voice, caption=update.message.caption,
-                               reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_voice(destination, update.message.voice, caption=update.message.caption,
+                                   reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -131,9 +142,12 @@ def photo_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_photo(destination, update.message.photo[0], caption=update.message.caption,
-                               reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_photo(destination, update.message.photo[0], caption=update.message.caption,
+                                   reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -160,8 +174,11 @@ def contact_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_contact(destination, update.message.contact, reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_contact(destination, update.message.contact, reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -188,8 +205,11 @@ def animation_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_animation(destination, update.message.animation, reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_animation(destination, update.message.animation, reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
     elif update.effective_chat.type == 'private':
@@ -216,9 +236,12 @@ def document_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_document(destination, update.message.document, caption=update.message.caption,
-                                  reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_document(destination, update.message.document, caption=update.message.caption,
+                                      reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -247,9 +270,12 @@ def video_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_video(destination, update.message.video, caption=update.message.caption,
-                               reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_video(destination, update.message.video, caption=update.message.caption,
+                                   reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -279,9 +305,12 @@ def audio_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_audio(destination, update.message.audio, caption=update.message.caption,
-                               reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_audio(destination, update.message.audio, caption=update.message.caption,
+                                   reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
@@ -309,9 +338,12 @@ def video_note_handler(update: Update, callback: CallbackContext):
 
         if destinations is not None:
             for destination in destinations:
-                message = bot.send_message(destination, 'پیام admin')
-                bot.send_video_note(destination, update.message.video_note, caption=update.message.caption,
-                                    reply_to_message_id=message.message_id)
+                try:
+                    message = bot.send_message(destination, 'پیام admin')
+                    bot.send_video_note(destination, update.message.video_note, caption=update.message.caption,
+                                        reply_to_message_id=message.message_id)
+                except Exception as e:
+                    print('Error')
         else:
             bot.send_message(update.effective_chat.id, 'invalid destination')
         data_holder.set_state(user.id, DataHolder.COMMAND_INPUT)
