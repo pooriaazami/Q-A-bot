@@ -1,3 +1,5 @@
+import random
+
 from utils.DataHolder import DataHolder
 
 
@@ -51,3 +53,10 @@ def translate_role(role):
         return 'کاربر'
 
     return '---'
+
+
+def choose_item_randomly(iterable):
+    length = len(iterable)
+    index = random.randint(0, length - 1)
+
+    return iterable[index]

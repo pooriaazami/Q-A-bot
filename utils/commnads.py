@@ -6,7 +6,7 @@ from telegram.ext import CallbackContext
 from utils.CommandMap import CommandMap
 from utils.DataHolder import DataHolder
 from utils.initial_actions import read_users
-from utils.utils import string_to_role, role_to_string, get_destinations
+from utils.utils import string_to_role, role_to_string, get_destinations, choose_item_randomly
 
 
 def start(update: Update, callback: CallbackContext):
@@ -228,3 +228,28 @@ def reset_command(update: Update, callback: CallbackContext, args):
             bot.send_message(update.effective_chat.id, 'انجام شد', reply_to_message_id=update.message.message_id)
     else:
         bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕', reply_to_message_id=update.message.message_id)
+
+
+def random(update: Update, callback: CallbackContext, args):
+    user = update.effective_user
+    bot = callback.bot
+    data_holder = DataHolder.get_instance()
+
+    if len(args) != 1:
+        bot.send_message(user, 'متوجه نشدم 😕')
+    else:
+        args[0] = args[0].lower()
+        if args[0] == 'user':
+            user = choose_item_randomly(data_holder.users)
+        elif args[0] == 'admin':
+            user = choose_item_randomly(data_holder.admins)
+        elif args[0] == 'branch':
+            user = choose_item_randomly(data_holder.branches)
+        else:
+            bot.send_message(user, 'متوجه نشدم 😕')
+            return
+
+        bot.send_message(user, '🎉')
+        bot.send_message(user, 'شما انتخاب شدید')
+
+        bot.send_message(data_holder.effective_chat_id, bot.get_chat(user))
