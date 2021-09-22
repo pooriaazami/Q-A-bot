@@ -1,3 +1,5 @@
+import logging
+
 from telegram.ext import Updater, CommandHandler, MessageHandler, Filters
 
 from utils.CommandMap import CommandMap
@@ -10,6 +12,7 @@ from utils.initial_actions import read_token, read_users
 
 
 def main():
+    logging.info('bot started')
     token = read_token()
 
     read_users()

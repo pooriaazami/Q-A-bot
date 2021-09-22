@@ -1,3 +1,6 @@
+import logging
+
+
 class DataHolder:
     __instance = None
 
@@ -35,6 +38,7 @@ class DataHolder:
 
     @staticmethod
     def get_instance():
+        logging.info('get_instance()')
         if DataHolder.__instance is None:
             DataHolder.__instance = DataHolder()
 
@@ -61,6 +65,7 @@ class DataHolder:
         return self.__states.get(user_id, DataHolder.INVALID_USERNAME)
 
     def register(self, user_id, username):
+        logging.info(f'register() user_id: {user_id} username: {username}')
         if user_id not in self.__registered_users.keys():
             self.__registered_users[user_id] = self.__valid_users[username]
 
@@ -126,6 +131,7 @@ class DataHolder:
         del self.__data[user_id]
 
     def set_role(self, user_id, new_role):
+        logging.info(f'set_role(): user_id: {user_id} new_roll: {new_role}')
         if user_id in self.__registered_users.keys():
             self.__registered_users[user_id] = new_role
 
@@ -140,5 +146,6 @@ class DataHolder:
 
     @staticmethod
     def reset():
+        logging.info('reset()')
         DataHolder.__instance = None
         DataHolder.__instance = DataHolder()

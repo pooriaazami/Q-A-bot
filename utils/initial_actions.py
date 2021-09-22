@@ -1,3 +1,5 @@
+import logging
+
 from utils.DataHolder import DataHolder
 from utils.utils import string_to_role
 
@@ -5,6 +7,7 @@ import re
 
 
 def read_users():
+    logging.info('read_users()')
     data_holder = DataHolder.get_instance()
 
     block_role = None
@@ -28,6 +31,7 @@ def read_users():
 
 
 def read_token():
+    logging.info('read_token()')
     with open('token.txt') as file:
         token = file.read()
 

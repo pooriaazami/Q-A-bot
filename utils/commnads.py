@@ -1,3 +1,5 @@
+import logging
+
 from telegram import Update
 from telegram.ext import CallbackContext
 
@@ -8,6 +10,7 @@ from utils.utils import string_to_role, role_to_string, get_destinations
 
 
 def start(update: Update, callback: CallbackContext):
+    logging.info(f'start() user: {update.effective_user.first_name} {update.effective_chat.type}')
     data_holder = DataHolder.get_instance()
 
     user = update.effective_user
@@ -31,6 +34,7 @@ def start(update: Update, callback: CallbackContext):
 
 
 def begin_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'begin() user: {update.effective_user.first_name} {update.effective_chat.type}')
     data_holder = DataHolder.get_instance()
     bot = callback.bot
 
@@ -49,6 +53,7 @@ def begin_command(update: Update, callback: CallbackContext, args):
 
 
 def end_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'end() user: {update.effective_user.first_name} {update.effective_chat.type}')
     bot = callback.bot
     data_holder = DataHolder.get_instance()
 
@@ -74,6 +79,7 @@ def end_command(update: Update, callback: CallbackContext, args):
 
 
 def add_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'add() user: {update.effective_user.first_name} {update.effective_chat.type}')
     bot = callback.bot
     args[1] = args[1].lower()
 
@@ -84,6 +90,7 @@ def add_command(update: Update, callback: CallbackContext, args):
 
 
 def list_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'list() user: {update.effective_user.first_name} {update.effective_chat.type}')
     bot = callback.bot
 
     if len(args) == 1:
@@ -119,6 +126,7 @@ def list_command(update: Update, callback: CallbackContext, args):
 
 
 def process_text_commands(update: Update, callback: CallbackContext):
+    logging.info(f'process_text_commands() user: {update.effective_user.first_name} {update.effective_chat.type}')
     args = update.message.text.split(' ')
     args[0] = args[0].lower()
 
@@ -126,6 +134,7 @@ def process_text_commands(update: Update, callback: CallbackContext):
 
 
 def branch_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'branch_command() user: {update.effective_user.first_name} {update.effective_chat.type}')
     bot = callback.bot
 
     if len(args) == 0:
@@ -150,6 +159,7 @@ def branch_command(update: Update, callback: CallbackContext, args):
 
 
 def report_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'report_command() user: {update.effective_user.first_name} {update.effective_chat.type}')
     bot = callback.bot
 
     counts = DataHolder.get_instance().count
@@ -169,6 +179,7 @@ def report_command(update: Update, callback: CallbackContext, args):
 
 
 def send_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'send_command() user: {update.effective_user.first_name} {update.effective_chat.type}')
     if len(args) == 1:
         DataHolder.get_instance().push_data(update.effective_user.id, args[0])
         DataHolder.get_instance().set_state(update.effective_user.id, DataHolder.SEND_INPUT)
@@ -178,6 +189,7 @@ def send_command(update: Update, callback: CallbackContext, args):
 
 
 def update_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'update_command() user: {update.effective_user.first_name} {update.effective_chat.type}')
     bot = callback.bot
 
     if len(args) == 2:
@@ -196,6 +208,7 @@ def update_command(update: Update, callback: CallbackContext, args):
 
 
 def help_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'help_command() user: {update.effective_user.first_name} {update.effective_chat.type}')
     bot = callback.bot
 
     if len(args) == 1:
@@ -206,6 +219,7 @@ def help_command(update: Update, callback: CallbackContext, args):
 
 
 def reset_command(update: Update, callback: CallbackContext, args):
+    logging.info(f'reset_command() user: {update.effective_user.first_name} {update.effective_chat.type}')
     bot = callback.bot
 
     if len(args) == 1:
