@@ -230,7 +230,7 @@ def reset_command(update: Update, callback: CallbackContext, args):
         bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕', reply_to_message_id=update.message.message_id)
 
 
-def random(update: Update, callback: CallbackContext, args):
+def random_command(update: Update, callback: CallbackContext, args):
     user = update.effective_user
     bot = callback.bot
     data_holder = DataHolder.get_instance()
@@ -252,4 +252,4 @@ def random(update: Update, callback: CallbackContext, args):
         bot.send_message(user, '🎉')
         bot.send_message(user, 'شما انتخاب شدید')
 
-        bot.send_message(data_holder.effective_chat_id, bot.get_chat(user))
+        bot.send_message(data_holder.effective_chat_id, f'{bot.get_chat(user).first_name}')

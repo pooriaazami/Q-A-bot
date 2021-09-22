@@ -6,7 +6,7 @@ from utils.CommandMap import CommandMap
 from utils.MessageHandler import text_message_handler, sticker_handler, voice_handler, animation_handler, \
     contact_handler, audio_handler, video_handler, photo_handler, video_note_handler, poll_handler, document_handler
 from utils.commnads import start, begin_command, end_command, add_command, list_command, \
-    branch_command, report_command, send_command, update_command, help_command, reset_command
+    branch_command, report_command, send_command, update_command, help_command, reset_command, random_command
 
 from utils.initial_actions import read_token, read_users
 
@@ -44,6 +44,7 @@ def main():
     command_map.add_command('update', update_command, 'update command help')
     command_map.add_command('help', help_command, 'help command help')
     command_map.add_command('reset', reset_command, 'reset command help')
+    command_map.add_command('random', random_command, 'random command help')
 
     updater.start_polling()
 
