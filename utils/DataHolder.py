@@ -52,11 +52,14 @@ class DataHolder:
     def effective_chat_id(self, value):
         self.__effective_chat_id = value
 
-    def push_new_valid_user(self, username, role):
-        self.__valid_users[username] = role
+    def push_new_valid_user(self, username, role, count):
+        self.__valid_users[username] = {'role': role, 'count': count}
 
     def get_valid_user(self, username):
-        return self.__valid_users.get(username, DataHolder.INVALID_USERNAME)
+        if username in self.__valid_users.keys():
+            return self.__valid_users[username]
+
+        return DataHolder.INVALID_USERNAME
 
     def set_state(self, user_id, state):
         self.__states[user_id] = state
@@ -67,18 +70,25 @@ class DataHolder:
     def register(self, user_id, username):
         logging.info(f'register() user_id: {user_id} username: {username}')
         if user_id not in self.__registered_users.keys():
-            self.__registered_users[user_id] = self.__valid_users[username]
+            username_data = self.__valid_users[username]
 
-            if self.__registered_users[user_id] == DataHolder.ADMIN:
-                self.__states[user_id] = DataHolder.COMMAND_INPUT
-            elif self.__registered_users[user_id] == DataHolder.USER:
-                if self.__effective_chat_id is None:
-                    self.__states[user_id] = DataHolder.WAIT
-                else:
-                    self.__states[user_id] = DataHolder.MESSAGE_INPUT
+            if username_data['count'] > 0:
+                self.__valid_users[username]['count'] = username_data['count'] - 1
+                self.__registered_users[user_id] = username_data['role']
 
-            del self.__valid_users[username]
+                if self.__registered_users[user_id] == DataHolder.ADMIN:
+                    self.__states[user_id] = DataHolder.COMMAND_INPUT
+                elif self.__registered_users[user_id] == DataHolder.USER:
+                    if self.__effective_chat_id is None:
+                        self.__states[user_id] = DataHolder.WAIT
+                    else:
+                        self.__states[user_id] = DataHolder.MESSAGE_INPUT
+
+                if self.__valid_users[username]['count'] == 0:
+                    del self.__valid_users[username]
+
             return self.__registered_users[user_id]
+
         return None
 
     @property

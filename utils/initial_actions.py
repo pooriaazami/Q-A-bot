@@ -20,14 +20,25 @@ def read_users():
             if line == 'end':
                 block_role = None
             elif block_role is not None:
-                data_holder.push_new_valid_user(line, block_role)
+                if line.count(' ') != 0:
+                    username, count = line.split(' ')
+                    data_holder.push_new_valid_user(username, block_role, int(count))
+                else:
+                    data_holder.push_new_valid_user(line, block_role, 1)
             elif line.startswith('multiple-input'):
                 regex = r'multiple-input \((.+)?\)'
                 block_role = string_to_role(re.findall(regex, line)[0])
             elif line.count(' ') == 1:
                 username, role = line.split(' ')
                 data_holder.push_new_valid_user(username,
-                                                string_to_role(role))
+                                                string_to_role(role), 1)
+            elif line.count(' ') == 2:
+                username, role, count = line.split(' ')
+                data_holder.push_new_valid_user(username,
+                                                string_to_role(role), int(count))
+            else:
+                if len(line) != 0:
+                    logging.warning(f'Invalid line: {line}')
 
 
 def read_token():
