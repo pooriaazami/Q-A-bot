@@ -84,7 +84,9 @@ def add_command(update: Update, callback: CallbackContext, args):
     args[1] = args[1].lower()
 
     if len(args) == 2:
-        DataHolder.get_instance().push_new_valid_user(args[0], string_to_role(args[1]))
+        DataHolder.get_instance().push_new_valid_user(args[0], string_to_role(args[1]), 1)
+    elif len(args) == 1:
+        DataHolder.get_instance().push_new_valid_user(args[0], string_to_role(args[1]), int(args[2]))
     else:
         bot.send_message(update.effective_chat.id, 'متوجه نشدم 😕', reply_to_message_id=update.message.message_id)
 
